@@ -49,4 +49,6 @@ if __name__ == "__main__":
 注意c++要写成cpp，否则不会高亮，而typora里c++和cpp都可以
 
 ## 部署
-npm run deploy
+代码在main分支
+静态资源在gh-page分支
+先`git push`代码再`npm run deploy`部署
