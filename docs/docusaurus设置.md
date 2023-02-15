@@ -47,3 +47,6 @@ if __name__ == "__main__":
 
 ## 代码高亮
 注意c++要写成cpp，否则不会高亮，而typora里c++和cpp都可以
+
+## 部署
+npm run deploy
