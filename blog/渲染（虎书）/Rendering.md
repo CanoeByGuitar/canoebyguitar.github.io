@@ -4,6 +4,154 @@ tags: [CG]
 ---
 <!--truncate-->
 
+## 代码实现过程记录
+
+具体代码见https://github.com/CanoeByGuitar/chenhui-lib
+
+### 光线和各种物体求交
+
+![image-20230311143332619](assets/image-20230311143332619.png)
+
+![image-20230311143310242](assets/image-20230311143310242.png
+
+![image-20230311143322657](assets/image-20230311143322657.png)
+
+![image-20230311143345703](assets/image-20230311143345703.png)
+
+> 上面那个把法线从[-1,1]映射到[0,255,255]
+
+带有Anti-aliasing的多物体求交
+
+![image-20230311143820082](assets/image-20230311143820082.png)
+
+![image-20230311143840947](assets/image-20230311143840947.png)
+
+### Lambertian Shading
+
+```cpp
+// light
+vec3 light_pos(0,4,-2);
+    float intensity = 1.f;
+    Light light(light_pos, intensity);
+```
+
+```cpp
+// World
+    Material *m = new Material(vec3(100, 100, 100));
+    SurfaceList world(nullptr);
+    world.add(std::make_shared<Circle>(Circle(m, vec3(0, 0, -1), 0.5)));
+    world.add(std::make_shared<Circle>(Circle(m, vec3(0, -100.5, -1), 100)));
+```
+
+
+
+```cpp
+vec3 ray_color(SurfaceList &world, Ray r, Light light){
+    Intersection inter1;
+    vec3 color(0, 0, 0);
+    if(world.getIntersect(r, 0.f, INF, inter1)){
+        auto p = inter1.point;
+        auto n = inter1.normal;
+        auto light_ray = Ray(p, light.pos - p);
+        auto l = light_ray.direction();
+        auto k_d = inter1.m->k_d;
+        Intersection inter2;
+        if(world.getIntersect(light_ray, 0.f, INF, inter2)){
+            // light cannot arrive at obj
+        }else{
+            auto I = light.intensity;
+            color += k_d * max(n * l, 0.f) * I;
+        }
+    }
+    return color;
+}
+```
+
+
+
+![image-20230311142508493](assets/image-20230311142508493.png)
+
+
+
+检查代码 材质里的k_d应该是[0,1]区间而不是[0,255]
+
+```cpp
+Material *m = new Material(vec3(0.7f, 0.7f, 0.7f));
+```
+
+![image-20230311143039992](assets/image-20230311143039992.png)
+
+
+
+### Blinn-Phong Shading
+
+给输出color加了一个clamp，超过1的输出1，否则ppm会被大于255的数解析成黑的
+
+![image-20230311145558608](assets/image-20230311145558608.png)
+
+
+
+下图的参数为：
+
+```cpp
+// World
+    auto *m1 = new Material(vec3(1, 0, 0), vec3(1, 0, 0), vec3(1, 0, 0));
+    auto *m2 = new Material(vec3(0, 1, 0), vec3(0, 1, 0), vec3(0, 1, 0));
+    auto *m3 = new Material(vec3(0.25, 0.25, 0.25), vec3(0.25, 0.25, 0.25), vec3(0.25, 0.25, 0.25));
+    SurfaceList world(nullptr);
+    world.add(std::make_shared<Circle>(Circle(m1, vec3(0.42, -0.08, -1.5), 0.4)));
+    world.add(std::make_shared<Circle>(Circle(m2, vec3(-0.35, -0.1, -1.3), 0.35)));
+    world.add(std::make_shared<Circle>(Circle(m3, vec3(0, -100.5, -1), 100)));
+
+    // light
+    std::vector<Light> light_list;
+    light_list.emplace_back(vec3(-4, 4, -3), 0.2f);
+    light_list.emplace_back(vec3(4, 4, -3), 0.5f);
+    light_list.emplace_back(vec3(0, 6, 0), 0.3f);
+```
+
+```cpp
+vec3 ray_color(SurfaceList &world, Ray r, const std::vector<Light> &light_list) {
+    Intersection inter1;
+    vec3 color(0, 0, 0);
+    if (world.getIntersect(r, 0.f, INF, inter1)) {
+        auto p = inter1.point;
+        auto n = inter1.normal;
+        auto v = -r.direction();
+        auto k_d = inter1.m->k_d;
+        auto k_s = inter1.m->k_s;
+        auto k_a = inter1.m->k_a;
+        // ambient shading
+        float I_a = 0.2;
+        color += k_a * I_a;
+        for (auto light: light_list) {
+            auto light_ray = Ray(p, light.pos - p);
+            auto l = light_ray.direction();
+            auto h = unit_vec((v + l));
+            Intersection inter2;
+            if (world.getIntersect(light_ray, 0.f, INF, inter2)) {
+                // light cannot arrive at obj
+            } else {
+                auto I = light.intensity;
+                color += k_d * max(n * l, 0.f) * I + k_s * I * pow(max(0.f, n * h), 10);
+            }
+        }
+    }else{
+        // background color
+        return vec3(0.847, 0.914, 0.996);
+    }
+    return clamp(color, 0, 1);
+}
+```
+
+调整下面的p得到不同的材质
+
+```L = k_d* I * max(0,n.dot(l))+ k_s* I  * max(0,n.dot(h))^p // p是为了加速从高光到消失的变化效果的```
+
+![image-20230311162947638](assets/image-20230311162947638.png)
+
+![image-20230311164147390](assets/image-20230311164147390.png)
+
 ## Math
 
 ### 点到直线距离
@@ -175,6 +323,8 @@ return true;
 
 ![image-20230221221501295](assets/image-20230221221501295.png)
 
+![image-20230307233719862](assets/image-20230307233719862.png)
+
 2D判断p在多边形内/外
 
 ```cpp
@@ -195,7 +345,7 @@ else return outside
 intersection{
   bool hit = false
   for(each object o: group){
-    if(o intersets ray in t && t >= t0 && t <){
+    if(o intersets ray in t && t >= t0 && t < t1){
       hit = true;
       hit_obj = o;
       t1 = t;
@@ -242,7 +392,7 @@ important variables:
 
 #### Blinn-Phong Shading
 
-在Lammbertian的基础上额外考虑高光（Phong和Blinn两个人分别完成和改进）
+在Lambertian的基础上额外考虑高光（Phong和Blinn两个人分别完成和改进）
 
 ![image-20230223012824894](assets/image-20230223012824894.png)
 
@@ -265,7 +415,7 @@ L = diffusion + specular + ambient(环境光)
 L = k_d* I * max(0,n.dot(l))+ k_s* I  * max(0,n.dot(h))^p + k_a * I_a // 可以所有的surface k_a都相同，也可以不一样
 ```
 
-
+![image-20230311145636904](assets/image-20230311145636904.png)
 
 #### Multiple Point Lights
 
@@ -346,3 +496,80 @@ raycolor(e+t*d, t0, t1){
 }
 ```
 
+## Viewing
+
+Object Space   ==>  World Space ==> Camera Space ==> Canonical View Volume$[-1,-1]^2$ ==> Screen Space
+
+  						M							 V								P												viewport transformation
+
+
+
+一些别称：
+
+Canonical View Volume： **Clip Space**， Normalized device coordinates（**NDC**）
+
+
+
+
+
+![image-20230309004657706](assets/image-20230309004657706.png)
+
+
+
+
+
+### Viewport Transformation
+
+$[-1,1]^2 ==> [-0.5, nx-0.5] \times [-0.5,ny-0.5]$
+
+![image-20230309010736288](assets/image-20230309010736288.png)
+
+加上z轴，让z保持不变
+
+![image-20230309010805176](assets/image-20230309010805176.png)
+
+### Projection transformation
+
+#### Orthographic
+
+ $[l, r] × [b, t] × [f, n] ==> [-1,1]^3$
+
+前者取决于用户设定
+
+![image-20230309013611534](assets/image-20230309013611534.png)
+
+e.g:
+
+n = -0.01
+
+f = -150
+
+![image-20230309013717698](assets/image-20230309013717698.png)
+
+#### Projective
+
+
+
+
+
+### View（Camera） transformation
+
+**world space[x,y,z]  ===> camera space[u, v, w]**
+
+[u, v, w] can be generated from camera info：
+
+* eye position: **e**
+* gaze direction: **g**
+* view-up vector: **t** 只是把观察者的头部分成左右两个部分
+
+![image-20230310003101303](assets/image-20230310003101303.png)
+
+
+
+![image-20230310005027077](assets/image-20230310005027077.png)
+
+![image-20230310005147083](assets/image-20230310005147083.png)
+
+可以理解成先移动-e到原点再旋转
+
+$M = M_{vp}M_{orth}M_{cam}$
