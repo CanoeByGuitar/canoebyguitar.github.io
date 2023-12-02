@@ -1,6 +1,6 @@
 ---
-title: 渲染（虎书）  
-tags: [CG]
+title: 书籍：《Fundamental of Graphics》  
+tags: [CG] 
 ---
 <!--truncate-->
 
