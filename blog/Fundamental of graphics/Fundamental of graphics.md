@@ -1,6 +1,6 @@
 ---
 title: 书籍：《Fundamental of Graphics》  
-tags: [CG] 
+tags: [graphics] 
 ---
 <!--truncate-->
 

@@ -9,5 +9,8 @@ npm run serve
 
 // deploy
 npm run build
-npm run deploy
+npm run deploy  // 这是把static网页推到gh-page分支
+git add .
+git commit -m "."
+git push
 ```

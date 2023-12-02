@@ -1,9 +1,8 @@
 ---
 title: 课程作业：Tiny PhysicEngine  
-tags: [C++]
+tags: [graphics]
 ---
-
-
+<!--truncate-->
 ## Before Reading
 本项目只作为课程作业。[项目地址](https://github.com/CanoeByGuitar/GamePhysicsEngine)
 
@@ -14,7 +13,7 @@ tags: [C++]
 
 使用观察者模式和std::function实现，物理模块对Geometry产生更新时通知渲染模块进行动态渲染。
 
-<img src="assets/image-20230601162356773.png" alt="image-20230601162356773" style="zoom:50%;" />
+![](assets/image-20230601162356773.png)
 
 ## 几何模块
 
@@ -133,7 +132,6 @@ if(APPLE)
 
 ### VAO VBO EBO
 
-<img src="assets/image-20230528132459835.png" alt="image-20230528132459835" style="zoom:100%;" />
 
 
 
