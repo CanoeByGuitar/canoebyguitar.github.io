@@ -1,8 +1,9 @@
 ---
-title: Linux系统新机配置顺序  
-tags: [Linux]
+title: 三种操作系统开发环境的搭建
+tags: [杂谈]
 ---
 <!--truncate-->
+# Linux
 ## 命令
 
 | 命令                              | 备注                                          |

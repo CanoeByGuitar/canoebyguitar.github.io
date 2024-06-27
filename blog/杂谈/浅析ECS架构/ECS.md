@@ -1,6 +1,6 @@
 ---
-title: ECS-Template  
-tags: [graphics]
+title: 浅析ECS架构
+tags: [杂谈]
 ---
 <!--truncate-->
 [项目链接](https://github.com/CanoeByGuitar/ECS-Template)

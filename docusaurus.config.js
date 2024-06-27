@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'CanoebyGuitar',
+  title: 'Chenhui',
   tagline: 'Graphics/Math/C++',
   favicon: 'img/avatar.ico',
 
@@ -71,7 +71,7 @@ const config = {
         isCloseable: true,
       },
       navbar: {
-        title: 'CanoebyGuitar的博客',
+        title: '要做一款好玩的游戏',
         // logo: {
         //   alt: 'My Site Logo',
         //   src: 'img/logo.svg',
