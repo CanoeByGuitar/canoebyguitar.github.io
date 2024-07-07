@@ -71,7 +71,7 @@ const config = {
         isCloseable: true,
       },
       navbar: {
-        title: '要做一款好玩的游戏',
+        title: 'MainPage',
         // logo: {
         //   alt: 'My Site Logo',
         //   src: 'img/logo.svg',

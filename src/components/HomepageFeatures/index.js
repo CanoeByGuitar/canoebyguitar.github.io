@@ -17,7 +17,8 @@ const FeatureList = [
     // Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Now studing at ECNU for M.S. in CS
+        Studing at ECNU for M.S. in CS (expected to graduate in June 2025).
+        Previously interned at Tencent IEG R&D and NetEase ThunderFire L26.
       </>
     ),
   },
