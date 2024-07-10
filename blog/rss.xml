@@ -9,12 +9,13 @@
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <item>
-            <title><![CDATA[C++/Modern Cpp新特性总结/1]]></title>
+            <title><![CDATA[Modern Cpp新特性总结]]></title>
             <link>https://canoebyguitar.github.io/blog/C++/Modern Cpp新特性总结/1</link>
             <guid>https://canoebyguitar.github.io/blog/C++/Modern Cpp新特性总结/1</guid>
             <pubDate>Wed, 10 Jul 2024 20:04:18 GMT</pubDate>
             <description><![CDATA[C++11]]></description>
             <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="c11">C++11<a href="#c11" class="hash-link" aria-label="Direct link to C++11" title="Direct link to C++11">​</a></h2><ul><li>为了实现移动复制而提出的右值引用</li><li>lambda,std::bind，std::function</li></ul><h2 class="anchor anchorWithStickyNavbar_LWe7" id="c17">C++17<a href="#c17" class="hash-link" aria-label="Direct link to C++17" title="Direct link to C++17">​</a></h2><ul><li>std::for_each</li></ul>]]></content:encoded>
+            <category>C++</category>
         </item>
         <item>
             <title><![CDATA[仿函数]]></title>
