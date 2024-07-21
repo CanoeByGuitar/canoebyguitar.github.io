@@ -1,8 +1,8 @@
 ---
 title: 全流程Pose Driver Deformer
 tags: [graphics]
-<!--truncate-->
 ---
+<!--truncate-->
 ## 概要
 
 **根据主骨骼当前旋转角和Targets旋转角，插值出Blendshape权重或次级骨骼Transform**
