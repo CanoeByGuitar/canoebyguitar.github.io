@@ -5,6 +5,7 @@ import tog2023 from '@site/static/img/tog2023.png'
 import logo from '@site/static/img/avatar.jpg'
 import netease from '@site/static/img/netease.png'
 import tencent from '@site/static/img/tencent.png'
+import mihoyo from '@site/static/img/mihoyo.png'
 
 const FeatureList = [
   {
@@ -22,7 +23,7 @@ const FeatureList = [
     description: (
       <>
         Studing at ECNU for M.S. in CS (expected to graduate in June 2025).
-        Previously interned at Tencent(Shanghai) IEG R&D and
+        Now work at Mihoyo(Shanghai) Honkai: Star Rail. Previously interned at Tencent(Shanghai) IEG RED and
         NetEase(Hangzhou) ThunderFire FragPunk.
       </>
     ),
@@ -89,6 +90,16 @@ export default function HomepageFeatures() {
 
       <div className="publications">
         <h2>Experience</h2>
+        <Experience
+          index={2}
+          company="Mihoyo"
+          role="Game Development Engineer"
+          duration="Decemeber 2024 - "
+          location="Shanghai, China"
+          description="Toolset and pipeline dev."
+          image={mihoyo} // Add appropriate image paths
+        />
+
         <Experience
           index={1}
           company="NetEase ThunderFire FragPunk"
