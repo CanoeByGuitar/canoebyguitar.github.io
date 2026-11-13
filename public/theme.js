@@ -4,6 +4,7 @@
     { id: 'catppuccin-mocha', name: 'catppuccin mocha', mode: 'dark', bg: '#11111b', accent: '#89b4fa', ink: '#cdd6f4' },
     { id: 'tokyo-night', name: 'tokyo night', mode: 'dark', bg: '#1a1b26', accent: '#7aa2f7', ink: '#c0caf5' },
     { id: 'dracula', name: 'dracula', mode: 'dark', bg: '#282a36', accent: '#bd93f9', ink: '#f8f8f2' },
+    { id: 'jetbrains-dark', name: 'jetbrains dark', mode: 'dark', bg: '#2b2b2b', accent: '#6897bb', ink: '#a9b7c6' },
     { id: 'nord', name: 'nord', mode: 'dark', bg: '#2e3440', accent: '#88c0d0', ink: '#eceff4' },
     { id: 'gruvbox-dark', name: 'gruvbox dark', mode: 'dark', bg: '#282828', accent: '#d79921', ink: '#fbf1c7' },
     { id: 'one-dark', name: 'one dark', mode: 'dark', bg: '#282c34', accent: '#61afef', ink: '#abb2bf' },
