@@ -1,0 +1,159 @@
+---
+interface TocItem {
+  depth: number;
+  slug: string;
+  text: string;
+  children: TocItem[];
+}
+
+interface Props {
+  items: TocItem[];
+  depth?: number;
+}
+
+const { items, depth = 0 } = Astro.props;
+---
+
+<ul class="outline-list" style={`--outline-depth:${depth}`}>
+  {
+    items.map((item) => (
+      <li class:list={['outline-item', { 'has-children': item.children.length > 0 }]} data-slug={item.slug}>
+        {item.children.length > 0 ? (
+          <>
+            <div class="outline-row">
+              <button class="outline-folder" type="button" aria-expanded="true">
+                <span class="outline-chevron" aria-hidden="true">⌄</span>
+                <span class="outline-label">{item.text}</span>
+              </button>
+              <a class="outline-jump outline-anchor" href={'#' + item.slug} aria-label={`Jump to ${item.text}`}>#</a>
+            </div>
+            <div class="outline-children">
+              <Astro.self items={item.children} depth={depth + 1} />
+            </div>
+          </>
+        ) : (
+          <a class="outline-leaf" href={'#' + item.slug}>
+            <span class="outline-spacer" aria-hidden="true" />
+            <span>{item.text}</span>
+          </a>
+        )}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .outline-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .outline-item {
+    position: relative;
+    margin: 1px 0;
+  }
+
+  .outline-row {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding-inline-start: calc(var(--outline-depth) * 0.85rem);
+    border-radius: 4px;
+  }
+
+  .outline-folder,
+  .outline-leaf {
+    min-width: 0;
+    border: 0;
+    border-radius: 4px;
+    font: inherit;
+    color: var(--c-muted);
+    background: transparent;
+    text-align: start;
+  }
+
+  .outline-folder {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex: 1;
+    padding: 0.34rem 0.3rem;
+    cursor: pointer;
+  }
+
+  .outline-anchor {
+    border-radius: 4px;
+    padding: 0.25rem 0.4rem;
+    color: transparent;
+    text-decoration: none;
+    opacity: 0;
+  }
+
+  .outline-row:hover,
+  .outline-row:focus-within,
+  .outline-leaf:hover,
+  .outline-leaf:focus-visible {
+    background: var(--c-selection);
+  }
+
+  .outline-row:hover .outline-folder,
+  .outline-row:focus-within .outline-folder,
+  .outline-leaf:hover,
+  .outline-leaf:focus-visible {
+    color: var(--c-fg);
+  }
+
+  .outline-row:hover .outline-anchor,
+  .outline-row:focus-within .outline-anchor {
+    color: var(--c-accent);
+    opacity: 1;
+  }
+
+  .outline-folder:focus-visible,
+  .outline-anchor:focus-visible,
+  .outline-leaf:focus-visible {
+    outline: 1px solid var(--c-accent);
+    outline-offset: -1px;
+  }
+
+  .outline-chevron,
+  .outline-spacer {
+    width: 1rem;
+    flex: 0 0 1rem;
+    color: var(--c-muted);
+    text-align: center;
+    transition: transform 100ms ease;
+  }
+
+  .outline-label,
+  .outline-leaf > span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .outline-leaf {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    width: calc(100% - var(--outline-depth) * 0.85rem);
+    margin-inline-start: calc(var(--outline-depth) * 0.85rem);
+    padding: 0.34rem 0.3rem;
+    text-decoration: none;
+  }
+
+  .outline-item[data-collapsed] > .outline-children {
+    display: none;
+  }
+
+  .outline-item[data-collapsed] > .outline-row .outline-chevron {
+    transform: rotate(-90deg);
+  }
+
+  .outline-item[data-active] > .outline-row,
+  .outline-leaf[aria-current='true'] {
+    background: var(--c-selection);
+    color: var(--c-accent);
+  }
+</style>

@@ -575,7 +575,7 @@ a {
 }
 
 /* ==========================================================================
-   Starlight 文章页：移除左栏，仅保留正文 + 右侧可折叠目录
+   Starlight 文章页：移除旧左栏，改为左侧多级可折叠目录 + 右侧正文
    ========================================================================== */
 
 /* 隐藏 Starlight 自带的明暗切换（改为配色方案切换） */
@@ -653,64 +653,6 @@ starlight-theme-select {
 .expressive-code {
   border: 1px solid var(--c-border) !important;
   border-radius: 4px !important;
-}
-
-/* 全部文章页隐藏左侧栏，同时取消 Starlight 为它预留的宽度。 */
-html[data-has-sidebar] {
-  --sl-content-inline-start: 0rem !important;
-}
-
-.page > nav.sidebar {
-  display: none !important;
-}
-
-@media (min-width: 50rem) {
-  [data-has-sidebar] .main-frame {
-    padding-inline-start: 0 !important;
-  }
-}
-
-/* 正文比默认更宽，右侧目录仍占一列。 */
-:root {
-  --sl-content-width: 56rem;
-}
-
-/* 右侧目录：标题本身作为折叠按钮。 */
-.right-sidebar-panel {
-  position: relative;
-}
-
-.right-sidebar-panel starlight-toc nav > h2 {
-  position: relative;
-  margin: 0;
-  padding: 0.75rem 2.25rem 0.75rem 0.9rem;
-  border: 1px solid var(--c-border);
-  border-radius: 4px;
-  color: var(--c-fg) !important;
-  background: var(--c-surface);
-  cursor: pointer;
-  user-select: none;
-}
-
-.right-sidebar-panel starlight-toc nav > h2::after {
-  content: '⌃';
-  position: absolute;
-  inset-inline-end: 0.9rem;
-  color: var(--c-muted);
-}
-
-.right-sidebar-panel starlight-toc nav > ul {
-  margin-top: 0.65rem;
-  max-height: calc(100vh - var(--sl-nav-height) - 8rem);
-  overflow: auto;
-}
-
-.right-sidebar-panel.is-collapsed starlight-toc nav > h2::after {
-  content: '⌄';
-}
-
-.right-sidebar-panel.is-collapsed starlight-toc nav > ul {
-  display: none;
 }
 
 /* 分页（上一页/下一页） */

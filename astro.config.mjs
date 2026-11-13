@@ -41,6 +41,9 @@ export default defineConfig({
       ],
       components: {
         Header: './src/components/Header.astro',
+        PageFrame: './src/components/PageFrame.astro',
+        TwoColumnContent: './src/components/TwoColumnContent.astro',
+        PageSidebar: './src/components/PageSidebar.astro',
       },
       head: [
         // 全站分享缩略图使用个人头像。
@@ -53,9 +56,8 @@ export default defineConfig({
           tag: 'script',
           content: `try{document.documentElement.dataset.scheme=localStorage.getItem('theme-palette')||'one-light'}catch{}`,
         },
-        // 配色切换器（t 键唤起）与文章目录折叠。
+        // 配色切换器（t 键唤起）。
         { tag: 'script', attrs: { src: `${base}theme.js`, defer: true } },
-        { tag: 'script', attrs: { src: `${base}article-toc.js`, defer: true } },
       ],
       sidebar: [
         {

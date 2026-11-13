@@ -1,0 +1,206 @@
+---
+import TocTree from './TocTree.astro';
+
+const { toc } = Astro.locals.starlightRoute;
+---
+
+{toc && (
+  <>
+    <div class="mobile-outline lg:sl-hidden">
+      <details>
+        <summary>
+          <span>ON THIS PAGE</span>
+          <span class="mobile-outline-current" />
+        </summary>
+        <div class="mobile-outline-tree" data-outline-root>
+          <TocTree items={toc.items} />
+        </div>
+      </details>
+    </div>
+
+    <nav class="desktop-outline sl-hidden lg:sl-block" aria-label="On this page" data-outline-root>
+      <div class="outline-title">
+        <span>ON THIS PAGE</span>
+        <button class="outline-collapse-all" type="button" aria-expanded="true" title="Collapse all">−</button>
+      </div>
+      <TocTree items={toc.items} />
+    </nav>
+  </>
+)}
+
+<style>
+  .desktop-outline,
+  .mobile-outline {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .outline-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding: 0.4rem 0.35rem 0.65rem;
+    border-bottom: 1px solid var(--c-border);
+    color: var(--c-muted);
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .outline-collapse-all {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0;
+    border-radius: 4px;
+    padding: 0;
+    font: inherit;
+    color: var(--c-muted);
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .outline-collapse-all:hover,
+  .outline-collapse-all:focus-visible {
+    color: var(--c-accent);
+    background: var(--c-selection);
+    outline: none;
+  }
+
+  .mobile-outline {
+    position: fixed;
+    z-index: var(--sl-z-index-toc);
+    top: calc(var(--sl-nav-height) - 1px);
+    inset-inline: 0;
+    border-top: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-bg);
+  }
+
+  .mobile-outline summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: var(--sl-mobile-toc-height);
+    padding: 0.5rem 1rem;
+    color: var(--c-fg);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .mobile-outline summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-outline summary::before {
+    content: '›';
+    color: var(--c-muted);
+    transform: rotate(0);
+    transition: transform 100ms ease;
+  }
+
+  .mobile-outline details[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  .mobile-outline-current {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--c-muted);
+  }
+
+  .mobile-outline-tree {
+    border-top: 1px solid var(--c-border);
+    max-height: min(65vh, 32rem);
+    padding: 0.6rem;
+    overflow: auto;
+    background: var(--c-surface);
+  }
+</style>
+
+<script>
+  const roots = [...document.querySelectorAll<HTMLElement>('[data-outline-root]')];
+
+  // Folder text toggles its own branch; leaves navigate directly.
+  roots.forEach((root) => {
+    root.querySelectorAll<HTMLButtonElement>('.outline-folder').forEach((button) => {
+      button.addEventListener('click', () => {
+        const item = button.closest<HTMLElement>('.outline-item.has-children');
+        if (!item) return;
+        const collapsed = item.toggleAttribute('data-collapsed');
+        button.setAttribute('aria-expanded', String(!collapsed));
+      });
+    });
+
+    root.querySelector<HTMLButtonElement>('.outline-collapse-all')?.addEventListener('click', (event) => {
+      const control = event.currentTarget as HTMLButtonElement;
+      const parents = [...root.querySelectorAll<HTMLElement>('.outline-item.has-children')];
+      const shouldCollapse = parents.some((item) => !item.hasAttribute('data-collapsed'));
+      parents.forEach((item) => {
+        item.toggleAttribute('data-collapsed', shouldCollapse);
+        item.querySelector<HTMLButtonElement>(':scope > .outline-row .outline-folder')
+          ?.setAttribute('aria-expanded', String(!shouldCollapse));
+      });
+      control.textContent = shouldCollapse ? '+' : '−';
+      control.title = shouldCollapse ? 'Expand all' : 'Collapse all';
+      control.setAttribute('aria-expanded', String(!shouldCollapse));
+    });
+
+    root.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', () => {
+        document.querySelector<HTMLDetailsElement>('.mobile-outline details')?.removeAttribute('open');
+      });
+    });
+  });
+
+  const allLinks = roots.flatMap((root) => [...root.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')]);
+  const headingEntries = allLinks
+    .map((link) => ({ link, heading: document.getElementById(decodeURIComponent(link.hash.slice(1))) }))
+    .filter((entry): entry is { link: HTMLAnchorElement; heading: HTMLElement } => Boolean(entry.heading));
+
+  function revealAncestors(link: HTMLAnchorElement) {
+    let item = link.closest<HTMLElement>('.outline-item');
+    if (item) item.setAttribute('data-active', '');
+    while (item) {
+      item.removeAttribute('data-collapsed');
+      item.querySelector<HTMLButtonElement>(':scope > .outline-row .outline-folder')
+        ?.setAttribute('aria-expanded', 'true');
+      item = item.parentElement?.closest<HTMLElement>('.outline-item') ?? null;
+    }
+  }
+
+  function setCurrent(hash: string) {
+    roots.forEach((root) => {
+      root.querySelectorAll('[data-active]').forEach((item) => item.removeAttribute('data-active'));
+      root.querySelectorAll<HTMLAnchorElement>('a[aria-current="true"]').forEach((link) => link.removeAttribute('aria-current'));
+      const current = root.querySelector<HTMLAnchorElement>(`a[href="${CSS.escape(hash)}"]`);
+      if (current) {
+        current.setAttribute('aria-current', 'true');
+        revealAncestors(current);
+      }
+    });
+    const activeText = roots[0]?.querySelector<HTMLAnchorElement>(`a[href="${CSS.escape(hash)}"]`)?.textContent?.trim() ?? '';
+    const display = document.querySelector<HTMLElement>('.mobile-outline-current');
+    if (display) display.textContent = activeText;
+  }
+
+  let frame = 0;
+  function updateCurrent() {
+    frame = 0;
+    const offset = (document.querySelector('header')?.getBoundingClientRect().height ?? 0) + 48;
+    let current = headingEntries[0];
+    for (const entry of headingEntries) {
+      if (entry.heading.getBoundingClientRect().top <= offset) current = entry;
+      else break;
+    }
+    if (current) setCurrent(current.link.hash);
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!frame) frame = requestAnimationFrame(updateCurrent);
+  }, { passive: true });
+  window.addEventListener('resize', updateCurrent);
+  updateCurrent();
+</script>

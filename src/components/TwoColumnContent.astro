@@ -1,0 +1,45 @@
+<div class="article-shell">
+  {Astro.locals.starlightRoute.toc && (
+    <aside class="article-outline print:hidden">
+      <slot name="right-sidebar" />
+    </aside>
+  )}
+  <div class="main-pane"><slot /></div>
+</div>
+
+<style>
+  @layer starlight.core {
+    .article-shell {
+      display: block;
+    }
+
+    .main-pane {
+      min-width: 0;
+      width: 100%;
+      isolation: isolate;
+    }
+
+    @media (min-width: 72rem) {
+      .article-shell {
+        display: grid;
+        grid-template-columns: 18rem minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .article-outline {
+        position: sticky;
+        top: var(--sl-nav-height);
+        height: calc(100vh - var(--sl-nav-height));
+        border-inline-end: 1px solid var(--sl-color-hairline);
+        padding: 1rem 0.75rem 2rem;
+        overflow: auto;
+        scrollbar-width: thin;
+        background: var(--sl-color-bg);
+      }
+
+      .main-pane {
+        --sl-content-margin-inline: auto;
+      }
+    }
+  }
+</style>
