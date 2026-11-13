@@ -6,7 +6,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 // GitHub Pages 部署时通过环境变量注入；本地开发默认使用根路径。
-// 例：SITE=https://yourname.github.io  BASE=/blog
+// 例：SITE=https://canoebyguitar.github.io  BASE=/
 const site = process.env.SITE ?? 'http://localhost:4321';
 const base = process.env.BASE ?? '/';
 
@@ -21,34 +21,40 @@ export default defineConfig({
   },
   integrations: [
     starlight({
-      title: '像素乐园',
-      description: '一个卡通像素风格的个人博客',
+      title: 'Chenhui Wang',
+      description: 'Graphics / Math / C++ — 物理与动画引擎程序员的笔记本',
       locales: {
         root: {
           label: '简体中文',
           lang: 'zh-CN',
         },
       },
-      logo: {
-        src: './src/assets/logo.svg',
-      },
-      // 字体与主题样式：fontsource 走本地打包，避免 Google Fonts 被墙。
       customCss: [
-        '@fontsource/press-start-2p',
-        '@fontsource/zcool-kuaile',
+        '@fontsource/jetbrains-mono',
+        '@fontsource/source-serif-4',
         'katex/dist/katex.min.css',
         './src/styles/custom.css',
       ],
+      head: [
+        // 首屏前先按 localStorage 设定配色，避免闪烁
+        {
+          tag: 'script',
+          content: `try{document.documentElement.dataset.scheme=localStorage.getItem('scheme')||'catppuccin-mocha'}catch(e){}`,
+        },
+        // 配色切换器（t 键唤起）
+        { tag: 'script', attrs: { src: `${base}theme.js`, defer: true } },
+      ],
       sidebar: [
         {
-          label: '文章',
+          label: '归档',
           items: [
             { autogenerate: { directory: 'posts' } },
           ],
         },
       ],
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/yourname' },
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/canoeByGuitar' },
+        { icon: 'email', label: 'Email', href: 'mailto:canoebyguitar@gmail.com' },
       ],
     }),
   ],
