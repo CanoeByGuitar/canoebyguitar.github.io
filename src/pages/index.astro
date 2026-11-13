@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+import '@fontsource/press-start-2p';
+import '@fontsource/zcool-kuaile';
+import '../styles/custom.css';
+
+const BASE = import.meta.env.BASE_URL;
+
+const posts = (await getCollection('docs'))
+  .filter((entry) => entry.id.startsWith('posts/'))
+  .map((entry) => ({
+    id: entry.id,
+    title: entry.data.title,
+    description: entry.data.description ?? '',
+    tags: entry.data.tags ?? [],
+    date: entry.data.date ? entry.data.date.toISOString().slice(0, 10) : null,
+  }))
+  .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+
+const title = '像素乐园';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content="一个卡通像素风格的个人博客" />
+    <link rel="icon" type="image/svg+xml" href={`${BASE}favicon.svg`} />
+    <script is:inline>
+      // 与 Starlight 共用 'starlight-theme'，避免两个页面主题状态打架。
+      (() => {
+        const stored = localStorage.getItem('starlight-theme');
+        const theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark';
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={`${BASE}`}>
+        <svg class="brand-logo" width="28" height="28" viewBox="0 0 16 16" aria-hidden="true" shape-rendering="crispEdges">
+          <rect class="px-star-shadow" x="7" y="1" width="4" height="2" />
+          <rect class="px-star-shadow" x="5" y="3" width="8" height="2" />
+          <rect class="px-star-shadow" x="3" y="5" width="12" height="4" />
+          <rect class="px-star-shadow" x="5" y="9" width="8" height="2" />
+          <rect class="px-star-shadow" x="7" y="11" width="4" height="2" />
+          <rect class="px-star-fill" x="6" y="0" width="4" height="2" />
+          <rect class="px-star-fill" x="4" y="2" width="8" height="2" />
+          <rect class="px-star-fill" x="2" y="4" width="12" height="4" />
+          <rect class="px-star-fill" x="4" y="8" width="8" height="2" />
+          <rect class="px-star-fill" x="6" y="10" width="4" height="2" />
+        </svg>
+        <span class="brand-name">{title}</span>
+      </a>
+      <button class="pixel-btn theme-toggle" id="theme-toggle" type="button">DARK</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="hero-kicker pixel-font">WELCOME TO MY PIXEL BLOG</p>
+        <h1 class="hero-title">{title}</h1>
+        <p class="hero-sub">用像素与代码，记录思考与创造。</p>
+        <div class="hero-actions">
+          <a class="pixel-btn pixel-btn--primary" href="#posts">阅读文章</a>
+          <a class="pixel-btn" href="https://github.com/yourname" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </section>
+
+      <section class="posts" id="posts">
+        <h2 class="section-title"><span class="pixel-font">POSTS</span>最新文章</h2>
+        <div class="post-grid">
+          {
+            posts.map((post) => (
+              <a class="pixel-card" href={`${BASE}${post.id}/`}>
+                <div class="pixel-card-tags">
+                  {post.tags.map((tag) => (
+                    <span class="pixel-chip">{tag}</span>
+                  ))}
+                </div>
+                <h3 class="pixel-card-title">{post.title}</h3>
+                <p class="pixel-card-desc">{post.description}</p>
+                {post.date && (
+                  <time class="pixel-card-date" datetime={post.date}>{post.date}</time>
+                )}
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>用 <span class="pixel-font">ASTRO + STARLIGHT</span> 搭建</p>
+    </footer>
+
+    <script is:inline>
+      (() => {
+        const btn = document.getElementById('theme-toggle');
+        const root = document.documentElement;
+        const apply = (theme) => {
+          root.dataset.theme = theme;
+          localStorage.setItem('starlight-theme', theme);
+          if (btn) btn.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+        };
+        apply(root.dataset.theme === 'dark' ? 'dark' : 'light');
+        btn?.addEventListener('click', () => {
+          apply(root.dataset.theme === 'dark' ? 'light' : 'dark');
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,379 @@
+/* ==========================================================================
+   像素乐园 · 卡通像素主题
+   --------------------------------------------------------------------------
+   浅色：纸面 + 蜡笔；深色：街机之夜。
+   通过 <html data-theme> 属性切换，与 Starlight 共用 'starlight-theme'。
+   ========================================================================== */
+
+:root {
+  /* —— 像素设计令牌（浅色） —— */
+  --px-bg: #f6efe0;
+  --px-bg-2: #ece0c6;
+  --px-card: #fffaf0;
+  --px-ink: #2a201a;
+  --px-accent: #e8542f;
+  --px-accent-2: #f2b632;
+  --px-shadow: #2a201a;
+  --px-dot: rgba(42, 32, 26, 0.05);
+
+  /* —— 字体 —— */
+  --px-font-display: 'ZCOOL KuaiLe', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --px-font-pixel: 'Press Start 2P', 'ZCOOL KuaiLe', monospace;
+  --px-font-body: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+
+  /* —— 映射到 Starlight 变量 —— */
+  --sl-font: var(--px-font-body);
+  --sl-color-accent: var(--px-accent);
+  --sl-color-accent-high: var(--px-accent-2);
+  --sl-color-accent-low: rgba(232, 84, 47, 0.12);
+  --sl-color-text-accent: #ffffff;
+  --sl-color-text: var(--px-ink);
+  --sl-color-text-invert: #ffffff;
+  --sl-color-bg: var(--px-bg);
+  --sl-color-bg-nav: var(--px-bg);
+  --sl-color-bg-sidebar: var(--px-bg-2);
+  --sl-color-bg-inline-code: rgba(42, 32, 26, 0.08);
+  --sl-color-bg-accent: var(--px-accent);
+  --sl-color-hairline: rgba(42, 32, 26, 0.28);
+  --sl-color-hairline-light: rgba(42, 32, 26, 0.12);
+  --sl-color-hairline-shade: rgba(42, 32, 26, 0.42);
+}
+
+:root[data-theme='dark'] {
+  /* —— 像素设计令牌（深色） —— */
+  --px-bg: #1a1c2c;
+  --px-bg-2: #232641;
+  --px-card: #262a45;
+  --px-ink: #f3ecd9;
+  --px-accent: #ffd23f;
+  --px-accent-2: #5eead4;
+  --px-shadow: #0c0e1a;
+  --px-dot: rgba(243, 236, 217, 0.04);
+
+  --sl-color-accent: var(--px-accent);
+  --sl-color-accent-high: #ffe48a;
+  --sl-color-accent-low: rgba(255, 210, 63, 0.14);
+  --sl-color-text-accent: #1a1c2c;
+  --sl-color-text: var(--px-ink);
+  --sl-color-text-invert: #1a1c2c;
+  --sl-color-bg: var(--px-bg);
+  --sl-color-bg-nav: var(--px-bg);
+  --sl-color-bg-sidebar: var(--px-bg-2);
+  --sl-color-bg-inline-code: rgba(243, 236, 217, 0.1);
+  --sl-color-bg-accent: var(--px-accent);
+  --sl-color-hairline: rgba(243, 236, 217, 0.22);
+  --sl-color-hairline-light: rgba(243, 236, 217, 0.12);
+  --sl-color-hairline-shade: rgba(243, 236, 217, 0.4);
+}
+
+/* ==========================================================================
+   基础
+   ========================================================================== */
+
+html {
+  background-color: var(--px-bg);
+}
+
+body {
+  margin: 0;
+  font-family: var(--px-font-body);
+  color: var(--px-ink);
+  background-color: var(--px-bg);
+  background-image: radial-gradient(var(--px-dot) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+
+/* ==========================================================================
+   像素工具类
+   ========================================================================== */
+
+.pixel-font {
+  font-family: var(--px-font-pixel);
+  letter-spacing: 0.06em;
+}
+
+.pixel-btn {
+  display: inline-block;
+  font-family: var(--px-font-pixel);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--px-ink);
+  background: var(--px-card);
+  border: 3px solid var(--px-ink);
+  padding: 13px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--px-shadow);
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
+}
+
+.pixel-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--px-shadow);
+}
+
+.pixel-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--px-shadow);
+}
+
+.pixel-btn--primary {
+  background: var(--px-accent);
+  color: var(--sl-color-text-accent);
+}
+
+.pixel-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--px-card);
+  border: 3px solid var(--px-ink);
+  box-shadow: 6px 6px 0 var(--px-shadow);
+  padding: 22px;
+  text-decoration: none;
+  color: var(--px-ink);
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
+}
+
+.pixel-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--px-shadow);
+}
+
+.pixel-card-title {
+  margin: 0;
+  font-family: var(--px-font-display);
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+.pixel-card-desc {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.pixel-card-date {
+  font-family: var(--px-font-pixel);
+  font-size: 10px;
+  opacity: 0.65;
+}
+
+.pixel-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pixel-chip {
+  display: inline-block;
+  font-family: var(--px-font-pixel);
+  font-size: 9px;
+  line-height: 1;
+  color: var(--px-ink);
+  background: var(--px-accent-2);
+  border: 2px solid var(--px-ink);
+  padding: 5px 6px 4px;
+  box-shadow: 2px 2px 0 var(--px-shadow);
+}
+
+/* 内联像素星星的填色 */
+.px-star-fill {
+  fill: var(--px-accent);
+}
+
+.px-star-shadow {
+  fill: var(--px-ink);
+}
+
+/* ==========================================================================
+   落地页（src/pages/index.astro）
+   ========================================================================== */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 24px 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--px-ink);
+}
+
+.brand-logo {
+  display: inline-flex;
+}
+
+.brand-name {
+  font-family: var(--px-font-display);
+  font-size: 1.5rem;
+}
+
+.theme-toggle {
+  font-size: 10px;
+  padding: 11px 12px;
+}
+
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 96px 24px 72px;
+}
+
+.hero-kicker {
+  margin: 0 0 20px;
+  font-size: 11px;
+  color: var(--px-accent);
+}
+
+.hero-title {
+  margin: 0 0 20px;
+  font-family: var(--px-font-display);
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.hero-sub {
+  margin: 0 0 32px;
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.posts {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 72px;
+}
+
+.section-title {
+  margin: 0 0 28px;
+  font-family: var(--px-font-display);
+  font-weight: 400;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.section-title .pixel-font {
+  font-size: 11px;
+  color: var(--px-accent);
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.site-footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  text-align: center;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   Starlight 文档页覆盖
+   ========================================================================== */
+
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4,
+.sl-markdown-content h5,
+.sl-markdown-content h6 {
+  font-family: var(--px-font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.sl-markdown-content h1 {
+  font-size: 2.5rem;
+}
+
+.sl-markdown-content h2 {
+  font-size: 1.8rem;
+}
+
+.sl-markdown-content a {
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+
+.sl-markdown-content blockquote {
+  background: var(--px-card);
+  border: 3px solid var(--px-ink);
+  border-left-width: 8px;
+  box-shadow: 4px 4px 0 var(--px-shadow);
+  padding: 14px 18px;
+}
+
+.sl-markdown-content table {
+  border: 3px solid var(--px-ink);
+  box-shadow: 4px 4px 0 var(--px-shadow);
+}
+
+.sl-markdown-content th,
+.sl-markdown-content td {
+  border: 2px solid var(--sl-color-hairline);
+}
+
+.sl-markdown-content hr {
+  border: none;
+  border-top: 3px dashed var(--px-ink);
+  opacity: 0.35;
+}
+
+/* 代码块加像素外框 */
+.expressive-code {
+  border: 3px solid var(--px-ink) !important;
+  border-radius: 0 !important;
+  box-shadow: 5px 5px 0 var(--px-shadow);
+}
+
+/* 侧边栏 */
+.sidebar {
+  border-inline-end: 3px solid var(--px-ink);
+}
+
+.sidebar a[aria-current='page'] {
+  background: var(--px-accent);
+  color: var(--sl-color-text-accent);
+}
+
+/* 主题选择器像素化 */
+starlight-theme-select select {
+  border: 2px solid var(--px-ink);
+  border-radius: 0;
+  box-shadow: 2px 2px 0 var(--px-shadow);
+  font-family: var(--px-font-pixel);
+  font-size: 10px;
+}
+
+/* 尊重系统减少动效 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

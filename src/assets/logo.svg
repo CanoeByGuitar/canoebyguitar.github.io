@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="32" height="32" shape-rendering="crispEdges" role="img" aria-label="像素星星">
+  <!-- 阴影 -->
+  <rect x="7" y="1" width="4" height="2" fill="#2a201a"/>
+  <rect x="5" y="3" width="8" height="2" fill="#2a201a"/>
+  <rect x="3" y="5" width="12" height="4" fill="#2a201a"/>
+  <rect x="5" y="9" width="8" height="2" fill="#2a201a"/>
+  <rect x="7" y="11" width="4" height="2" fill="#2a201a"/>
+  <!-- 主体 -->
+  <rect x="6" y="0" width="4" height="2" fill="#e8542f"/>
+  <rect x="4" y="2" width="8" height="2" fill="#e8542f"/>
+  <rect x="2" y="4" width="12" height="4" fill="#e8542f"/>
+  <rect x="4" y="8" width="8" height="2" fill="#e8542f"/>
+  <rect x="6" y="10" width="4" height="2" fill="#e8542f"/>
+</svg>

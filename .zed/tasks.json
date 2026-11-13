@@ -1,0 +1,24 @@
+[
+  {
+    "label": "dev",
+    "command": "npm run dev",
+    "reveal": "always"
+  },
+  {
+    "label": "build",
+    "command": "npm run build",
+    "reveal": "always",
+    "hide": "on_success"
+  },
+  {
+    "label": "preview",
+    "command": "npm run preview",
+    "reveal": "always"
+  },
+  {
+    "label": "check",
+    "command": "npm run check",
+    "reveal": "always",
+    "hide": "on_success"
+  }
+]
