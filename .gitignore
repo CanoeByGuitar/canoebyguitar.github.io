@@ -4,6 +4,13 @@ node_modules/
 # build output
 dist/
 .astro/
+.manim-media/
+qa/
+
+# local Python environment
+.venv/
+__pycache__/
+*.pyc
 
 # environment
 .env

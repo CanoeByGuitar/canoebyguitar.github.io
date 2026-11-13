@@ -20,5 +20,43 @@
     "command": "npm run check",
     "reveal": "always",
     "hide": "on_success"
+  },
+  {
+    "label": "Manim: Preview current scene",
+    "command": "powershell.exe",
+    "args": [
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "$ZED_WORKTREE_ROOT/scripts/render-manim.ps1",
+      "-SceneFile",
+      "$ZED_FILE",
+      "-Mode",
+      "preview"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "current",
+    "reveal": "always",
+    "hide": "never"
+  },
+  {
+    "label": "Manim: Render current scene",
+    "command": "powershell.exe",
+    "args": [
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "$ZED_WORKTREE_ROOT/scripts/render-manim.ps1",
+      "-SceneFile",
+      "$ZED_FILE",
+      "-Mode",
+      "render"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "current",
+    "reveal": "always",
+    "hide": "on_success"
   }
 ]
