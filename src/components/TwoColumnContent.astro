@@ -1,4 +1,4 @@
-<div class="article-shell">
+<div class:list={['article-shell', { 'has-outline': Boolean(Astro.locals.starlightRoute.toc) }]}>
   {Astro.locals.starlightRoute.toc && (
     <aside class="article-outline print:hidden">
       <slot name="right-sidebar" />
@@ -20,13 +20,13 @@
     }
 
     @media (min-width: 72rem) {
-      .article-shell {
+      .article-shell.has-outline {
         display: grid;
         grid-template-columns: 18rem minmax(0, 1fr);
         align-items: start;
       }
 
-      .article-outline {
+      .article-shell.has-outline .article-outline {
         position: sticky;
         top: var(--sl-nav-height);
         height: calc(100vh - var(--sl-nav-height));
@@ -37,7 +37,7 @@
         background: var(--sl-color-bg);
       }
 
-      .main-pane {
+      .article-shell.has-outline .main-pane {
         --sl-content-margin-inline: auto;
       }
     }
