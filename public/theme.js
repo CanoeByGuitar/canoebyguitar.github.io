@@ -49,6 +49,8 @@
     const scheme = find(id);
     root.dataset.scheme = scheme.id;
     root.dataset.mode = scheme.mode;
+    // Expressive Code / Starlight 根据 data-theme 选择 dark(--0) 或 light(--1) token。
+    root.dataset.theme = scheme.mode;
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', scheme.bg);
   }
@@ -56,6 +58,7 @@
   function save(id) {
     try {
       localStorage.setItem(KEY, id);
+      localStorage.setItem('starlight-theme', find(id).mode);
     } catch {}
   }
 

@@ -54,7 +54,7 @@ export default defineConfig({
         // 首屏前先按 localStorage 设定配色，避免闪烁
         {
           tag: 'script',
-          content: `try{document.documentElement.dataset.scheme=localStorage.getItem('theme-palette')||'one-light'}catch{}`,
+          content: `try{const t=localStorage.getItem('theme-palette')||'one-light';const d=['catppuccin-mocha','tokyo-night','dracula','jetbrains-dark','nord','gruvbox-dark','one-dark','solarized-dark','kanagawa-wave','rose-pine','vesper'].includes(t);document.documentElement.dataset.scheme=t;document.documentElement.dataset.theme=d?'dark':'light';document.documentElement.dataset.mode=d?'dark':'light'}catch{}`,
         },
         // 配色切换器（t 键唤起）。
         { tag: 'script', attrs: { src: `${base}theme.js`, defer: true } },

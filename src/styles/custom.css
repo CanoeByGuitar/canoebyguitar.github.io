@@ -656,6 +656,62 @@ starlight-theme-select {
   border-radius: 4px !important;
 }
 
+/* Expressive Code 的 token 默认来自 Night Owl。主题脚本会同步 data-theme，
+   让所有 dark/light 配色先选到正确 token；暗色下注释再提高最低对比度。 */
+:root[data-mode='dark'] .expressive-code {
+  --ec-codeBg: var(--c-surface);
+  --ec-codeFg: var(--c-fg);
+  --ec-codeSelBg: var(--c-selection);
+  --ec-gtrFg: var(--c-muted);
+  --ec-frm-edBg: var(--c-surface);
+  --ec-frm-trmBg: var(--c-surface);
+}
+
+:root[data-mode='dark'] .expressive-code .ec-line span[style*='--0:#919F9F' i] {
+  --0: #8f9ba8 !important;
+}
+
+/* JetBrains Dark / Darcula 语法映射：关键字橙、函数黄、类型紫、字符串绿、数字蓝。 */
+:root[data-scheme='jetbrains-dark'] .expressive-code {
+  --ec-codeBg: #2b2b2b;
+  --ec-codeFg: #a9b7c6;
+  --ec-codeSelBg: #214283;
+  --ec-gtrFg: #808080;
+  --ec-gtrBrdCol: #3c3f41;
+  --ec-frm-edBg: #2b2b2b;
+  --ec-frm-trmBg: #2b2b2b;
+}
+
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#D6DEEB' i],
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#D7DBE0' i],
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#7FDBCA' i] {
+  --0: #a9b7c6 !important;
+}
+
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#C792EA' i] {
+  --0: #cc7832 !important;
+}
+
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#82AAFF' i] {
+  --0: #ffc66d !important;
+}
+
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#FFCB8B' i] {
+  --0: #9876aa !important;
+}
+
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#C5E478' i] {
+  --0: #86a66f !important;
+}
+
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#F78C6C' i] {
+  --0: #6897bb !important;
+}
+
+:root[data-scheme='jetbrains-dark'] .expressive-code .ec-line span[style*='--0:#919F9F' i] {
+  --0: #8c8c8c !important;
+}
+
 /* 分页（上一页/下一页） */
 .pagination-links a {
   border: 1px solid var(--c-border);

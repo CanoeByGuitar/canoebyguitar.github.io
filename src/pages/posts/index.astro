@@ -30,8 +30,15 @@ const posts = (await getCollection('docs'))
     <link rel="icon" type="image/svg+xml" href={`${BASE}favicon.svg`} />
     <script is:inline>
       try {
-        document.documentElement.dataset.scheme =
-          localStorage.getItem('theme-palette') || 'one-light';
+        const theme = localStorage.getItem('theme-palette') || 'one-light';
+        const darkThemes = [
+          'catppuccin-mocha', 'tokyo-night', 'dracula', 'jetbrains-dark', 'nord',
+          'gruvbox-dark', 'one-dark', 'solarized-dark', 'kanagawa-wave', 'rose-pine', 'vesper'
+        ];
+        const mode = darkThemes.includes(theme) ? 'dark' : 'light';
+        document.documentElement.dataset.scheme = theme;
+        document.documentElement.dataset.theme = mode;
+        document.documentElement.dataset.mode = mode;
       } catch {}
     </script>
   </head>
