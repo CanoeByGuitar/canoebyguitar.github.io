@@ -1,6 +1,9 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { unified } from '@astrojs/markdown-remark';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 // GitHub Pages 部署时通过环境变量注入；本地开发默认使用根路径。
 // 例：SITE=https://yourname.github.io  BASE=/blog
@@ -10,6 +13,12 @@ const base = process.env.BASE ?? '/';
 export default defineConfig({
   site,
   base,
+  markdown: {
+    processor: unified({
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex],
+    }),
+  },
   integrations: [
     starlight({
       title: '像素乐园',
@@ -27,6 +36,7 @@ export default defineConfig({
       customCss: [
         '@fontsource/press-start-2p',
         '@fontsource/zcool-kuaile',
+        'katex/dist/katex.min.css',
         './src/styles/custom.css',
       ],
       sidebar: [

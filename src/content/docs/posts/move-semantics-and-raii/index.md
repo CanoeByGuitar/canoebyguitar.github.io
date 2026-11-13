@@ -1,0 +1,230 @@
+---
+title: "从移动语义到封装RAII类"
+description: "从移动语义到封装RAII类"
+date: 2024-08-06
+category: 归档
+---
+
+## 为什么需要移动语义
+对于一个自定义的类，该类拥有一些资源，比如堆中的连续数据
+```cpp
+struct Vec {
+    Vec(int size):
+    size(size),
+    data(new int[size])
+    {}
+
+    ~Vec(){delete[] data;}
+    
+    Vec(const Vec& v) {
+        size = v.size;
+        data = new int[size];
+        memcpy(data, v.data, size);
+    }
+
+    Vec& operator=(const Vec& v) {
+        if(this == &v) return *this;
+        size = v.size();
+        delete[] data;
+        data = new int[size];
+        memcpy(data, v.data, size);
+        return *this;
+    }
+
+    int* data;
+    int size;
+};
+```
+这个类的语义是掌管了一份资源，这个资源可以深拷贝给其他对象，但每个对象拥有的资源是不同且唯一的，不可共享。
+
+大部分情况，这种语义是OK的，但在某些需求下希望一个对象的资源的所有权是可以转移给别人的，转移了之后自己就不再拥有这份资源。
+
+那么就应当这样实现拷贝和赋值
+```cpp
+Vec(Vec-Type v) {
+    size = v.size;
+    data = v.data;
+    v.data = nullptr;
+    v.size = 0;
+}
+
+Vec& operator=(Vec-Type v) {
+    if(this == &v) return *this;
+    delete[] data;
+    size = v.size();
+    data = v.data;
+    v.data = nullptr;
+    v.size = 0;
+    return *this;
+}
+```
+此处的Vec-Type用于区别const Vec&, 这样就能根据传入的参数类型来决定调用拷贝还是移动。
+
+在c++11前，一般使用Boost中rvref来实现
+```cpp
+template<typename T>
+struct Boost_rvref {
+  T& ref;
+};
+
+template<typename T>
+Boost_rvref<T> move(const T& in) {
+  return in;
+}
+
+Vec(Boost_rvref<Vec> v) {
+  size = v.ref.size;
+  data = new int[size];
+  memcpy(data, v.ref.data, size);
+}
+
+Vec a(3);
+Vec b(move(a));
+``` 
+确定是需要更多的使用move来触发立即数和将亡值的移动
+```cpp
+Vec(const Vec&) = delete;
+Vec f() {
+    Vec v(3);
+    return v;
+}
+Vec b(f()); // 会调用Vec(const Vec&) 报错
+```
+
+c++11后官方给出了rvalue ref类型,来区分拷贝和移动。
+```cpp
+Vec(Vec&& v) {
+    size = v.ref.size;
+    data = new int[size];
+    memcpy(data, v.ref.data, size);
+}
+Vec a(3);
+Vec b(std::move(a));
+```
+所以右值引用的唯一作用就是实现移动构造和移动赋值
+> 对比boost这种模板的方式，官方的标准支持立即数和将亡值的移动，而不需要额外套一个move
+
+
+## 左值和右值
+
+**类型** 和 **左右值**是两个不同维度的东西，调用函数时的函数签名既包含**类型**也包含**左右值**， 两个都对应才能调用
+
+
+
+左值：能取出地址，内存中实际存在，有一个标识符（名称）的值
+
+右值：不能取出地址，通常是临时对象
+
+左值和右值只是语法层面的东西，只在编译期发挥作用，指挥编译器选取对应函数
+
+
+
+右值引用是一种**类型**，绑定到一个右值上。
+
+右值引用可以是左值也可以是右值
+
+```cpp
+A a;
+A&& a1 = std::move(a);
+// a1和std::move(a)类型都是A&&, 但a1是左值， std::move(a)是右值
+```
+
+## 通用引用和完美转发
+### 来源
+```cpp
+// 右值引用
+A&& a1 = A();
+
+// 通用引用
+auto&& a2 = A();
+
+template<typename T>
+void f(T&& param);
+```
+
+通用引用其实是effective c++的作者提出， 用来描述**引用折叠**效果的概念
+
+引用折叠是c++标准的编译规则
+> 只有T&& && 才是右值，其他组合方式都是左值
+
+
+```cpp
+struct A {
+    A() = default;
+};
+
+void f(const A&){std::cout << "const A&\n";}
+void f(A&&){std::cout << "A&&\n";}
+
+template<typename T>
+void test(T&& t) {
+    f(t);
+}
+
+A a;
+test(a); // const A&， t的类型是 && + & = &
+test(std::move(a)); // const A&， t的类型是&& + && = &&， 但是t是个左值
+```
+
+### std::forward
+为了实现传进来的参数是左值，t就是左值；传进来的参数是右值，t就是右值，需要加std::forward
+
+```cpp
+template<typename T>
+void test(T&& t) {
+    f(std::forward<T>(t));
+A a;
+test(a); // const A&
+test(std::move(a)); // A&&
+}
+```
+
+具体实现
+```cpp
+// 针对传入的是左值
+template <typename T>
+constexpr T&& forward(typename std::remove_reference<T>::type& t) noexcept {
+    return static_cast<T&&>(t);
+}
+
+// 针对传入的是右值
+template <typename T>
+constexpr T&& forward(typename std::remove_reference<T>::type&& t) noexcept {
+    static_assert(!std::is_lvalue_reference<T>::value, "T must not be an lvalue reference");
+    return static_cast<T&&>(t);
+}
+```
+可以发现forward也利用了引用折叠的规则，传入左值 && + & = &， 传入右值 && + && = &&
+
+
+```cpp
+// f(std::forward<T>(t)) 相当于
+if t is &, f(t)
+if t is &&, f(std::move(t))
+
+```
+
+**应用**
+
+实现输入类T的构造参数，返回T的智能指针
+
+```cpp
+template<typename T, typename... Args>
+std::shared_ptr<T> make_shared(Args&&... args){
+  // args是Args&&...类型的左值
+  // 所以下面调用的是T的拷贝构造
+  return std::shared_ptr<T>(new T(args...));
+}
+```
+
+改为
+
+```cpp
+template<typename T, typename... Args>
+std::shared_ptr<T> make_shared(Args&&... args){
+  // 完美转发 args的左/右值属性
+  // 传入的是左值就转发左值
+  // 传入的是右值就转发右值
+  return std::shared_ptr<T> (new T(std::forward<Args>(args)...);
+}
+```

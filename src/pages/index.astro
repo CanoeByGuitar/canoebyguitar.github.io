@@ -12,7 +12,7 @@ const posts = (await getCollection('docs'))
     id: entry.id,
     title: entry.data.title,
     description: entry.data.description ?? '',
-    tags: entry.data.tags ?? [],
+    category: entry.data.category ?? null,
     date: entry.data.date ? entry.data.date.toISOString().slice(0, 10) : null,
   }))
   .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
@@ -80,9 +80,7 @@ const title = '像素乐园';
             posts.map((post) => (
               <a class="pixel-card" href={`${BASE}${post.id}/`}>
                 <div class="pixel-card-tags">
-                  {post.tags.map((tag) => (
-                    <span class="pixel-chip">{tag}</span>
-                  ))}
+                  {post.category && <span class="pixel-chip">{post.category}</span>}
                 </div>
                 <h3 class="pixel-card-title">{post.title}</h3>
                 <p class="pixel-card-desc">{post.description}</p>

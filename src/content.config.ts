@@ -10,8 +10,8 @@ export const collections = {
       extend: z.object({
         // 文章发布日期（用于首页排序）
         date: z.coerce.date().optional(),
-        // 文章标签
-        tags: z.array(z.string()).default([]),
+        // 文章分类（一级分类）
+        category: z.string().optional(),
       }),
     }),
   }),
