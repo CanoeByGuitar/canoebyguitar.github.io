@@ -1,0 +1,75 @@
+---
+import avatar from '../assets/avatar.jpg';
+import mihoyo from '../assets/mihoyo.png';
+import tencent from '../assets/tencent.png';
+import netease from '../assets/netease.png';
+import tog2023 from '../assets/tog2023.png';
+
+const experiences = [
+  {
+    logo: mihoyo.src,
+    title: 'Mihoyo · Game Development Engineer',
+    meta: 'Dec 2024 — present · Shanghai, China',
+    desc: 'Toolset and pipeline development for Honkai: Star Rail.',
+  },
+  {
+    logo: netease.src,
+    title: 'NetEase ThunderFire FragPunk · Game Development Engineer',
+    meta: 'June 2024 — Sep 2024 · Hangzhou, China',
+    desc: 'Implemented and optimized Rewind Debugger toolkits, Character Animation Blueprint, and an FPS game mode with UI.',
+  },
+  {
+    logo: tencent.src,
+    title: 'Tencent IEG R&D · Game Development Engineer',
+    meta: 'Sep 2023 — April 2024 · Shanghai, China',
+    desc: 'Research intern in the Animation Technology group, working on a Pose Space Deformer toolkit and runtime physical bone simulation.',
+  },
+];
+---
+
+<div class="about-intro">
+  <img class="about-avatar" src={avatar.src} alt="Chenhui Wang" width="128" height="128" />
+  <div>
+    <p>
+      I am a physics and animation engine programmer interested in computer graphics,
+      physical simulation, character animation, and the tools and pipelines that connect them.
+    </p>
+    <p>
+      I received my M.S. in Computer Science from East China Normal University in June 2025.
+      I currently work at Mihoyo in Shanghai on Honkai: Star Rail.
+    </p>
+    <p class="about-links">
+      <a href="mailto:canoebyguitar@gmail.com">email</a>
+      <a href="https://github.com/canoeByGuitar" target="_blank" rel="noopener">github</a>
+    </p>
+  </div>
+</div>
+
+<h2>Experience</h2>
+<div class="experience-list">
+  {
+    experiences.map((exp) => (
+      <article class="experience-item">
+        <div class="experience-logo-wrap">
+          <img class="experience-logo" src={exp.logo} alt={`${exp.title} logo`} />
+        </div>
+        <div>
+          <h3>{exp.title}</h3>
+          <p class="experience-meta">{exp.meta}</p>
+          <p>{exp.desc}</p>
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+<h2>Publications</h2>
+<article class="publication-item">
+  <img class="publication-image" src={tog2023.src} alt="TOG 2023 publication preview" />
+  <div>
+    <h3>A Unified MPM Framework supporting Phase-field Models and Elastic-viscoplastic Phase Transition</h3>
+    <p>Zaili Tu, Chen Li, Zipeng Zhao, Long Liu, <strong>Chenhui Wang</strong>, Changbo Wang, Hong Qin.</p>
+    <p class="publication-venue">Transactions on Graphics (TOG), 2023</p>
+    <p><a href="https://dl.acm.org/doi/10.1145/3638047" target="_blank" rel="noopener">[paper]</a></p>
+  </div>
+</article>

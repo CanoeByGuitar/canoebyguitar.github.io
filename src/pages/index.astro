@@ -1,53 +1,28 @@
 ---
-import { getCollection } from 'astro:content';
 import '../styles/custom.css';
 import avatar from '../assets/avatar.jpg';
-import mihoyo from '../assets/mihoyo.png';
-import tencent from '../assets/tencent.png';
-import netease from '../assets/netease.png';
-import tog2023 from '../assets/tog2023.png';
 
 const BASE = import.meta.env.BASE_URL;
-
-const posts = (await getCollection('docs'))
-  .filter((entry) => entry.id.startsWith('posts/'))
-  .map((entry) => ({
-    id: entry.id,
-    title: entry.data.title,
-    category: entry.data.category ?? null,
-    date: entry.data.date ? entry.data.date.toISOString().slice(0, 10) : null,
-  }))
-  .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
-
-const experiences = [
-  {
-    logo: mihoyo.src,
-    title: 'Mihoyo · Game Development Engineer',
-    meta: 'Dec 2024 — present · Shanghai, China',
-    desc: 'Toolset and pipeline dev. (Honkai: Star Rail)',
-  },
-  {
-    logo: netease.src,
-    title: 'NetEase ThunderFire FragPunk · Game Development Engineer',
-    meta: 'June 2024 — Sep 2024 · Hangzhou, China',
-    desc: 'Implemented and optimized Rewind Debugger Toolkits, Character Animation Blueprint and FPS gamemode with UI.',
-  },
-  {
-    logo: tencent.src,
-    title: 'Tencent IEG R&D · Game Development Engineer',
-    meta: 'Sep 2023 — April 2024 · Shanghai, China',
-    desc: 'Research intern in the Animation Technology group, working on Pose Space Deformer Toolkit and Runtime Physical Bone Simulation.',
-  },
-];
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Chenhui Wang · Graphics / Math / C++</title>
-    <meta name="description" content="Chenhui Wang — 物理与动画引擎程序员，研究方向为计算机图形学与物理仿真。" />
+    <meta name="theme-color" content="#fafafa" />
+    <title>Chenhui Wang · Physics / Animation / Graphics / C++</title>
+    <meta
+      name="description"
+      content="Chenhui Wang — physics and animation engine programmer working on computer graphics and physical simulation."
+    />
+    <meta property="og:title" content="Chenhui Wang" />
+    <meta property="og:description" content="Physics / Animation / Graphics / C++" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL('avatar.jpg', Astro.site).href} />
+    <meta property="og:image:alt" content="Portrait of Chenhui Wang" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content={new URL('avatar.jpg', Astro.site).href} />
     <link rel="icon" type="image/svg+xml" href={`${BASE}favicon.svg`} />
     <script is:inline>
       try {
@@ -61,91 +36,34 @@ const experiences = [
       <a class="brand" href={`${BASE}`}>
         <span class="brand-prompt">~/</span><span>chenhui</span>
       </a>
-      <nav class="nav">
-        <a href="#about">about</a>
-        <a href="#experience">experience</a>
-        <a href="#publications">publications</a>
-        <a href="#posts">posts</a>
+      <nav class="nav" aria-label="Primary">
+        <a href={`${BASE}about/`}>about</a>
+        <a href={`${BASE}posts/`}>posts</a>
       </nav>
       <button class="palette-btn" type="button" data-scheme-toggle data-scheme-label>
         one light
       </button>
     </header>
 
-    <main class="container">
-      <section class="hero">
-        <img class="avatar" src={avatar.src} alt="Chenhui Wang" width="72" height="72" />
-        <h1 class="hero-name">Chenhui Wang</h1>
-        <p class="hero-tagline">Graphics / Math / C++</p>
-        <p class="hero-intro">
-          物理 / 动画引擎程序员。我的研究兴趣是计算机图形学与物理仿真。
+    <main class="container home-main">
+      <section class="hero home-hero">
+        <img class="avatar home-avatar" src={avatar.src} alt="Chenhui Wang" width="112" height="112" />
+        <p class="home-eyebrow">PHYSICS / ANIMATION / GRAPHICS / C++</p>
+        <h1 class="hero-name home-name">Chenhui Wang</h1>
+        <p class="hero-intro home-intro">
+          I am a physics and animation engine programmer interested in computer graphics,
+          physical simulation, character animation, and production tools.
         </p>
-        <div class="hero-links">
+        <div class="home-actions">
+          <a href={`${BASE}about/`}>about</a>
+          <a href={`${BASE}posts/`}>posts</a>
           <a href="mailto:canoebyguitar@gmail.com">email</a>
           <a href="https://github.com/canoeByGuitar" target="_blank" rel="noopener">github</a>
         </div>
       </section>
-
-      <section id="about" class="section">
-        <h2 class="section-heading"># about</h2>
-        <p>
-          华东师范大学（ECNU）计算机科学硕士（2025 年 6 月毕业），现就职于米哈游（上海），
-          参与《崩坏：星穹铁道》。此前在腾讯（上海）IEG R&D 与网易（杭州）雷火 FragPunk 实习。
-        </p>
-      </section>
-
-      <section id="experience" class="section">
-        <h2 class="section-heading"># experience</h2>
-        {
-          experiences.map((exp) => (
-            <div class="exp-item">
-              <img class="exp-logo" src={exp.logo} alt={exp.title} width="44" height="44" />
-              <div>
-                <div class="exp-title">{exp.title}</div>
-                <div class="exp-meta">{exp.meta}</div>
-                <p class="exp-desc">{exp.desc}</p>
-              </div>
-            </div>
-          ))
-        }
-      </section>
-
-      <section id="publications" class="section">
-        <h2 class="section-heading"># publications</h2>
-        <div class="pub-item">
-          <img class="pub-img" src={tog2023.src} alt="TOG 2023 paper" width="160" />
-          <div>
-            <p class="pub-title">
-              A Unified MPM Framework supporting Phase-field Models and Elastic-viscoplastic Phase Transition
-            </p>
-            <p class="pub-meta">
-              Zaili Tu, Chen Li, Zipeng Zhao, Long Liu, Chenhui Wang, Changbo Wang, Hong Qin.
-            </p>
-            <p class="pub-venue">Transactions on Graphics (TOG) 2023</p>
-            <a class="pub-link" href="https://dl.acm.org/doi/10.1145/3638047" target="_blank" rel="noopener">
-              [paper]
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section id="posts" class="section">
-        <h2 class="section-heading"># posts</h2>
-        <ul class="post-list">
-          {
-            posts.map((post) => (
-              <li class="post-item">
-                <time class="post-date" datetime={post.date ?? undefined}>{post.date ?? '—'}</time>
-                <a class="post-title" href={`${BASE}${post.id}/`}>{post.title}</a>
-                {post.category && <span class="post-cat">{post.category}</span>}
-              </li>
-            ))
-          }
-        </ul>
-      </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer home-footer">
       <span>Chenhui Wang · canoebyguitar@gmail.com</span>
     </footer>
 

@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "一个卡通像素风格的个人博客，基于 Astro + Starlight。",
+  "description": "Chenhui Wang 的物理、动画与图形引擎技术博客，基于 Astro + Starlight。",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

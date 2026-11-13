@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import '../../styles/custom.css';
+const BASE = import.meta.env.BASE_URL;
+const posts = (await getCollection('docs'))
+  .filter((entry) => entry.id.startsWith('posts/'))
+  .map((entry) => ({
+    id: entry.id,
+    title: entry.data.title,
+    description: entry.data.description ?? '',
+    category: entry.data.category ?? null,
+    date: entry.data.date ? entry.data.date.toISOString().slice(0, 10) : null,
+  }))
+  .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fafafa" />
+    <title>Posts · Chenhui Wang</title>
+    <meta name="description" content="Archived notes by Chenhui Wang." />
+    <meta property="og:title" content="Posts · Chenhui Wang" />
+    <meta property="og:description" content="Archived notes on C++, graphics, physics, animation, and Unreal Engine." />
+    <meta property="og:image" content={new URL('avatar.jpg', Astro.site).href} />
+    <meta property="og:image:alt" content="Portrait of Chenhui Wang" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content={new URL('avatar.jpg', Astro.site).href} />
+    <link rel="icon" type="image/svg+xml" href={`${BASE}favicon.svg`} />
+    <script is:inline>
+      try {
+        document.documentElement.dataset.scheme =
+          localStorage.getItem('theme-palette') || 'one-light';
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={`${BASE}`}>
+        <span class="brand-prompt">~/</span><span>chenhui</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href={`${BASE}about/`}>about</a>
+        <a aria-current="page" href={`${BASE}posts/`}>posts</a>
+      </nav>
+      <button class="palette-btn" type="button" data-scheme-toggle data-scheme-label>
+        one light
+      </button>
+    </header>
+
+    <main class="container posts-page">
+      <header class="posts-header">
+        <p class="posts-eyebrow">ARCHIVE</p>
+        <h1>Posts</h1>
+        <p>Notes on C++, graphics, physics, animation, tools, and Unreal Engine.</p>
+      </header>
+      <ul class="post-list">
+        {
+          posts.map((post) => (
+            <li class="post-item">
+              <time class="post-date" datetime={post.date ?? undefined}>{post.date ?? '—'}</time>
+              <div class="post-copy">
+                <a class="post-title" href={`${BASE}${post.id}/`}>{post.title}</a>
+                {post.description && <p class="post-description">{post.description}</p>}
+              </div>
+              {post.category && <span class="post-cat">{post.category}</span>}
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+
+    <footer class="site-footer">
+      <span>{posts.length} archived posts</span>
+    </footer>
+
+    <script src={`${BASE}theme.js`} defer></script>
+  </body>
+</html>

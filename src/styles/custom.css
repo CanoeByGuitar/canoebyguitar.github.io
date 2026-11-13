@@ -100,20 +100,20 @@ a {
    ========================================================================== */
 
 .container {
-  max-width: 760px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 28px;
 }
 
 .site-header {
   display: flex;
   align-items: center;
   gap: 20px;
-  max-width: 760px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 28px 24px 0;
+  padding: 30px 28px 0;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .brand {
@@ -140,13 +140,14 @@ a {
   text-decoration: none;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav a[aria-current='page'] {
   color: var(--c-accent);
 }
 
 .palette-btn {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--c-fg);
   background: var(--c-surface);
   border: 1px solid var(--c-border);
@@ -160,12 +161,12 @@ a {
 }
 
 .hero {
-  padding: 72px 0 40px;
+  padding: 88px 0 56px;
 }
 
 .avatar {
-  width: 72px;
-  height: 72px;
+  width: 112px;
+  height: 112px;
   border-radius: 4px;
   margin-bottom: 24px;
   display: block;
@@ -174,7 +175,7 @@ a {
 .hero-name {
   margin: 0 0 8px;
   font-family: var(--font-mono);
-  font-size: 1.9rem;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -182,21 +183,47 @@ a {
 .hero-tagline {
   margin: 0 0 20px;
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--c-accent);
 }
 
 .hero-intro {
   margin: 0 0 20px;
-  max-width: 560px;
+  max-width: 680px;
   color: var(--c-muted);
+  font-size: clamp(1.2rem, 2.3vw, 1.55rem);
+  line-height: 1.65;
 }
 
-.hero-links {
+.hero-links,
+.home-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 14px;
+}
+
+.home-main {
+  min-height: calc(100vh - 10rem);
+}
+
+.home-hero {
+  padding-top: clamp(5rem, 12vh, 9rem);
+}
+
+.home-eyebrow,
+.posts-eyebrow {
+  margin: 0 0 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--c-accent);
+}
+
+.home-footer {
+  border-top: 1px solid var(--c-border);
 }
 
 .section {
@@ -230,12 +257,12 @@ a {
 }
 
 .exp-logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 4px;
+  width: 8.5rem;
+  height: 3.75rem;
   flex-shrink: 0;
   object-fit: contain;
-  background: var(--c-surface);
+  object-position: center;
+  background: transparent;
 }
 
 .exp-title {
@@ -266,7 +293,8 @@ a {
 }
 
 .pub-img {
-  width: 160px;
+  width: min(42%, 19rem);
+  height: auto;
   border-radius: 4px;
   flex-shrink: 0;
 }
@@ -321,8 +349,42 @@ a {
   text-decoration: none;
 }
 
+.post-copy {
+  min-width: 0;
+  flex: 1;
+}
+
 .post-title:hover {
   color: var(--c-accent);
+}
+
+.post-description {
+  margin: 0.25rem 0 0;
+  color: var(--c-muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.posts-page {
+  padding-top: clamp(4rem, 10vh, 7rem);
+  padding-bottom: 4rem;
+}
+
+.posts-header {
+  margin-bottom: 2.5rem;
+}
+
+.posts-header h1 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  line-height: 1.1;
+}
+
+.posts-header > p:last-child {
+  margin: 0;
+  color: var(--c-muted);
+  font-size: 1.1rem;
 }
 
 .post-cat {
@@ -337,9 +399,9 @@ a {
 }
 
 .site-footer {
-  max-width: 760px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 40px 24px 56px;
+  padding: 40px 28px 56px;
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--c-muted);
@@ -430,7 +492,90 @@ a {
 }
 
 /* ==========================================================================
-   Starlight 文档页覆盖
+   About 页面：大图跟随文字排版，企业 logo 保持透明
+   ========================================================================== */
+
+.about-intro {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  align-items: start;
+  gap: 2rem;
+  margin-block: 1rem 3rem;
+}
+
+.about-avatar {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.about-links {
+  display: flex;
+  gap: 1rem;
+  font-family: var(--font-mono);
+}
+
+.experience-item {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  align-items: center;
+  gap: 2rem;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.experience-item:last-child {
+  border-bottom: 0;
+}
+
+.experience-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 5rem;
+}
+
+.experience-logo {
+  display: block;
+  width: 100%;
+  max-width: 9.5rem;
+  max-height: 4.5rem;
+  object-fit: contain;
+  background: transparent;
+}
+
+.experience-item h3,
+.publication-item h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+}
+
+.experience-meta,
+.publication-venue {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--c-muted);
+}
+
+.publication-item {
+  display: grid;
+  grid-template-columns: minmax(15rem, 42%) minmax(0, 1fr);
+  align-items: start;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.publication-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Starlight 文章页：移除左栏，仅保留正文 + 右侧可折叠目录
    ========================================================================== */
 
 /* 隐藏 Starlight 自带的明暗切换（改为配色方案切换） */
@@ -510,16 +655,111 @@ starlight-theme-select {
   border-radius: 4px !important;
 }
 
-/* 侧边栏 */
-.sidebar a[aria-current='page'] {
-  background: var(--c-selection);
-  color: var(--c-accent);
+/* 全部文章页隐藏左侧栏，同时取消 Starlight 为它预留的宽度。 */
+html[data-has-sidebar] {
+  --sl-content-inline-start: 0rem !important;
+}
+
+.page > nav.sidebar {
+  display: none !important;
+}
+
+@media (min-width: 50rem) {
+  [data-has-sidebar] .main-frame {
+    padding-inline-start: 0 !important;
+  }
+}
+
+/* 正文比默认更宽，右侧目录仍占一列。 */
+:root {
+  --sl-content-width: 56rem;
+}
+
+/* 右侧目录：标题本身作为折叠按钮。 */
+.right-sidebar-panel {
+  position: relative;
+}
+
+.right-sidebar-panel starlight-toc nav > h2 {
+  position: relative;
+  margin: 0;
+  padding: 0.75rem 2.25rem 0.75rem 0.9rem;
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  color: var(--c-fg) !important;
+  background: var(--c-surface);
+  cursor: pointer;
+  user-select: none;
+}
+
+.right-sidebar-panel starlight-toc nav > h2::after {
+  content: '⌃';
+  position: absolute;
+  inset-inline-end: 0.9rem;
+  color: var(--c-muted);
+}
+
+.right-sidebar-panel starlight-toc nav > ul {
+  margin-top: 0.65rem;
+  max-height: calc(100vh - var(--sl-nav-height) - 8rem);
+  overflow: auto;
+}
+
+.right-sidebar-panel.is-collapsed starlight-toc nav > h2::after {
+  content: '⌄';
+}
+
+.right-sidebar-panel.is-collapsed starlight-toc nav > ul {
+  display: none;
 }
 
 /* 分页（上一页/下一页） */
 .pagination-links a {
   border: 1px solid var(--c-border);
   border-radius: 4px;
+}
+
+@media (max-width: 52rem) {
+  .site-header {
+    flex-wrap: wrap;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .palette-btn {
+    margin-left: auto;
+  }
+
+  .post-item,
+  .about-intro,
+  .experience-item,
+  .publication-item {
+    display: block;
+  }
+
+  .post-date,
+  .post-cat {
+    display: inline-block;
+    margin: 0 0.75rem 0.35rem 0;
+  }
+
+  .experience-logo-wrap {
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .experience-logo {
+    max-width: 11rem;
+  }
+
+  .about-avatar,
+  .publication-image {
+    margin-bottom: 1.5rem;
+  }
 }
 
 /* 尊重系统减少动效 */

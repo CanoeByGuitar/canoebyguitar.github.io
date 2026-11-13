@@ -39,14 +39,23 @@ export default defineConfig({
         'katex/dist/katex.min.css',
         './src/styles/custom.css',
       ],
+      components: {
+        Header: './src/components/Header.astro',
+      },
       head: [
+        // 全站分享缩略图使用个人头像。
+        { tag: 'meta', attrs: { property: 'og:image', content: new URL('avatar.jpg', site).href } },
+        { tag: 'meta', attrs: { property: 'og:image:alt', content: 'Portrait of Chenhui Wang' } },
+        { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary' } },
+        { tag: 'meta', attrs: { name: 'twitter:image', content: new URL('avatar.jpg', site).href } },
         // 首屏前先按 localStorage 设定配色，避免闪烁
         {
           tag: 'script',
           content: `try{document.documentElement.dataset.scheme=localStorage.getItem('theme-palette')||'one-light'}catch{}`,
         },
-        // 配色切换器（t 键唤起）
+        // 配色切换器（t 键唤起）与文章目录折叠。
         { tag: 'script', attrs: { src: `${base}theme.js`, defer: true } },
+        { tag: 'script', attrs: { src: `${base}article-toc.js`, defer: true } },
       ],
       sidebar: [
         {

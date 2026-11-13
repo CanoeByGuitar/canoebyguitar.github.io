@@ -26,9 +26,8 @@ jobs:
           path: .
           node-version: 22
         env:
-          # TODO: 改成你自己的用户名与仓库名。
-          SITE: https://yourname.github.io
-          BASE: /blog
+          SITE: https://canoebyguitar.github.io
+          BASE: /
   deploy:
     needs: build
     runs-on: ubuntu-latest
