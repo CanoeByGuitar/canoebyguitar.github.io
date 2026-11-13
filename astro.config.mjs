@@ -32,6 +32,10 @@ export default defineConfig({
       customCss: [
         '@fontsource/jetbrains-mono',
         '@fontsource/source-serif-4',
+        '@fontsource/noto-sans-sc/400.css',
+        '@fontsource/noto-sans-sc/600.css',
+        '@fontsource/noto-serif-sc/400.css',
+        '@fontsource/noto-serif-sc/600.css',
         'katex/dist/katex.min.css',
         './src/styles/custom.css',
       ],
@@ -39,7 +43,7 @@ export default defineConfig({
         // 首屏前先按 localStorage 设定配色，避免闪烁
         {
           tag: 'script',
-          content: `try{document.documentElement.dataset.scheme=localStorage.getItem('scheme')||'catppuccin-mocha'}catch(e){}`,
+          content: `try{document.documentElement.dataset.scheme=localStorage.getItem('theme-palette')||'one-light'}catch{}`,
         },
         // 配色切换器（t 键唤起）
         { tag: 'script', attrs: { src: `${base}theme.js`, defer: true } },

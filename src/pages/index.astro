@@ -52,8 +52,8 @@ const experiences = [
     <script is:inline>
       try {
         document.documentElement.dataset.scheme =
-          localStorage.getItem('scheme') || 'catppuccin-mocha';
-      } catch (e) {}
+          localStorage.getItem('theme-palette') || 'one-light';
+      } catch {}
     </script>
   </head>
   <body>
@@ -68,7 +68,7 @@ const experiences = [
         <a href="#posts">posts</a>
       </nav>
       <button class="palette-btn" type="button" data-scheme-toggle data-scheme-label>
-        catppuccin-mocha
+        one light
       </button>
     </header>
 

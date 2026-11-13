@@ -5,25 +5,27 @@
    - 通过 <html data-scheme="..."> 控制
    ========================================================================== */
 
-/* ---------- 默认配色（Catppuccin Mocha） ---------- */
+/* ---------- 默认配色（与 Morello 当前一致：One Light） ---------- */
 :root {
-  --c-bg: #1e1e2e;
-  --c-surface: #181825;
-  --c-fg: #cdd6f4;
-  --c-muted: #a6adc8;
-  --c-accent: #89b4fa;
+  --c-bg: #fafafa;
+  --c-surface: #f2f2f3;
+  --c-fg: #383a42;
+  --c-muted: #666974;
+  --c-accent: #2c61da;
   --c-border: color-mix(in srgb, var(--c-fg) 16%, transparent);
-  --c-selection: color-mix(in srgb, var(--c-accent) 30%, transparent);
-  --c-success: #a6e3a1;
-  --c-error: #f38ba8;
-  --c-warning: #fab387;
+  --c-selection: color-mix(in srgb, var(--c-accent) 24%, transparent);
+  --c-success: #50a14f;
+  --c-error: #e45649;
+  --c-warning: #c18401;
 
-  /* ---------- 字体 ---------- */
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code', Consolas, 'Noto Sans Mono CJK SC', monospace;
-  --font-serif: 'Source Serif 4', 'Songti SC', 'Noto Serif CJK SC', 'SimSun', 'Times New Roman', serif;
+  /* Morello：标签/UI/标题/代码用 JetBrains Mono，正文用 Source Serif 4。
+     中文分别以 Noto Sans SC 与 Noto Serif SC 承接。 */
+  --font-mono: 'JetBrains Mono', 'Noto Sans SC', ui-monospace, 'SFMono-Regular', 'Cascadia Code', Consolas, monospace;
+  --font-serif: 'Source Serif 4', 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
 
   /* ---------- 映射到 Starlight ---------- */
-  --sl-font: var(--font-serif);
+  /* Starlight 的导航、标签、标题与 UI 用等宽体；正文区域单独切回衬线体。 */
+  --sl-font: var(--font-mono);
   --sl-font-mono: var(--font-mono);
   --sl-color-white: var(--c-fg);
   --sl-color-black: var(--c-bg);
@@ -50,23 +52,23 @@
   --sl-color-gray-7: var(--c-bg);
 }
 
-/* ---------- 16 套配色方案 ---------- */
-[data-scheme='catppuccin-mocha'] { --c-bg:#1e1e2e; --c-surface:#181825; --c-fg:#cdd6f4; --c-muted:#a6adc8; --c-accent:#89b4fa; }
-[data-scheme='tokyo-night']      { --c-bg:#1a1b26; --c-surface:#16161e; --c-fg:#c0caf5; --c-muted:#565f89; --c-accent:#7aa2f7; }
-[data-scheme='dracula']          { --c-bg:#282a36; --c-surface:#21222c; --c-fg:#f8f8f2; --c-muted:#6272a4; --c-accent:#bd93f9; }
-[data-scheme='nord']             { --c-bg:#2e3440; --c-surface:#3b4252; --c-fg:#d8dee9; --c-muted:#81a1c1; --c-accent:#88c0d0; }
-[data-scheme='gruvbox-dark']     { --c-bg:#282828; --c-surface:#1d2021; --c-fg:#ebdbb2; --c-muted:#a89984; --c-accent:#fabd2f; }
-[data-scheme='one-dark']         { --c-bg:#282c34; --c-surface:#21252b; --c-fg:#abb2bf; --c-muted:#5c6370; --c-accent:#61afef; }
-[data-scheme='solarized-dark']   { --c-bg:#002b36; --c-surface:#073642; --c-fg:#839496; --c-muted:#586e75; --c-accent:#268bd2; }
-[data-scheme='everforest']       { --c-bg:#2d353b; --c-surface:#272e33; --c-fg:#d3c6aa; --c-muted:#859289; --c-accent:#a7c080; }
-[data-scheme='rose-pine']        { --c-bg:#191724; --c-surface:#1f1d2e; --c-fg:#e0def4; --c-muted:#908caa; --c-accent:#ebbcba; }
-[data-scheme='ayu-dark']         { --c-bg:#0f1419; --c-surface:#131721; --c-fg:#e6e1cf; --c-muted:#5c6773; --c-accent:#ffcc66; }
-[data-scheme='github-dark']      { --c-bg:#0d1117; --c-surface:#161b22; --c-fg:#e6edf3; --c-muted:#8b949e; --c-accent:#58a6ff; }
-[data-scheme='monokai']          { --c-bg:#272822; --c-surface:#1e1f1c; --c-fg:#f8f8f2; --c-muted:#75715e; --c-accent:#fd971f; }
-[data-scheme='zenburn']          { --c-bg:#3f3f3f; --c-surface:#383838; --c-fg:#dcdccc; --c-muted:#8f8f8f; --c-accent:#7f9f7f; }
-[data-scheme='synthwave-84']     { --c-bg:#262335; --c-surface:#241b2f; --c-fg:#f7f7f7; --c-muted:#848bbd; --c-accent:#fede5d; }
-[data-scheme='night-owl']        { --c-bg:#011627; --c-surface:#01121f; --c-fg:#d6deeb; --c-muted:#637777; --c-accent:#82aaff; }
-[data-scheme='horizon']          { --c-bg:#1c1e26; --c-surface:#16161c; --c-fg:#fdf0ed; --c-muted:#6c6f93; --c-accent:#e95678; }
+/* ---------- Morello 线上实际 16 套主题：10 dark + 6 light ---------- */
+[data-scheme='catppuccin-mocha'] { --c-bg:#11111b; --c-surface:#181825; --c-fg:#cdd6f4; --c-muted:#9399b2; --c-accent:#89b4fa; }
+[data-scheme='tokyo-night']      { --c-bg:#1a1b26; --c-surface:#16161e; --c-fg:#c0caf5; --c-muted:#8d95be; --c-accent:#7aa2f7; }
+[data-scheme='dracula']          { --c-bg:#282a36; --c-surface:#21222c; --c-fg:#f8f8f2; --c-muted:#98a0c3; --c-accent:#bd93f9; }
+[data-scheme='nord']             { --c-bg:#2e3440; --c-surface:#3b4252; --c-fg:#eceff4; --c-muted:#a3afc6; --c-accent:#88c0d0; }
+[data-scheme='gruvbox-dark']     { --c-bg:#282828; --c-surface:#1d2021; --c-fg:#fbf1c7; --c-muted:#a89984; --c-accent:#d79921; }
+[data-scheme='one-dark']         { --c-bg:#282c34; --c-surface:#21252b; --c-fg:#abb2bf; --c-muted:#8c94a2; --c-accent:#61afef; }
+[data-scheme='solarized-dark']   { --c-bg:#002b36; --c-surface:#073642; --c-fg:#93a1a1; --c-muted:#869da5; --c-accent:#3fa0e8; }
+[data-scheme='kanagawa-wave']    { --c-bg:#1f1f28; --c-surface:#2a2a37; --c-fg:#dcd7ba; --c-muted:#9e9b93; --c-accent:#7e9cd8; }
+[data-scheme='rose-pine']        { --c-bg:#191724; --c-surface:#1f1d2e; --c-fg:#e0def4; --c-muted:#908caa; --c-accent:#c4a7e7; }
+[data-scheme='vesper']           { --c-bg:#101010; --c-surface:#181818; --c-fg:#ffffff; --c-muted:#848483; --c-accent:#ffc799; }
+[data-scheme='catppuccin-latte'] { --c-bg:#eff1f5; --c-surface:#e6e9ef; --c-fg:#4c4f69; --c-muted:#65677d; --c-accent:#145ceb; }
+[data-scheme='gruvbox-light']    { --c-bg:#fbf1c7; --c-surface:#f2e5bc; --c-fg:#282828; --c-muted:#665c54; --c-accent:#076678; }
+[data-scheme='one-light']        { --c-bg:#fafafa; --c-surface:#f2f2f3; --c-fg:#383a42; --c-muted:#666974; --c-accent:#2c61da; }
+[data-scheme='solarized-light']  { --c-bg:#fdf6e3; --c-surface:#eee8d5; --c-fg:#566b72; --c-muted:#5a6b6d; --c-accent:#006bb0; }
+[data-scheme='kanagawa-lotus']   { --c-bg:#f2ecbc; --c-surface:#e7dba0; --c-fg:#43436c; --c-muted:#636054; --c-accent:#456092; }
+[data-scheme='rose-pine-dawn']   { --c-bg:#faf4ed; --c-surface:#f2e9de; --c-fg:#575279; --c-muted:#6a6684; --c-accent:#76608e; }
 
 /* ==========================================================================
    基础
@@ -344,7 +346,7 @@ a {
 }
 
 /* ==========================================================================
-   配色切换浮层（t 键）
+   配色切换浮层（复刻 Morello：dark/light 分组，hover 即时预览）
    ========================================================================== */
 
 .scheme-overlay {
@@ -361,10 +363,10 @@ a {
 
 .scheme-dialog {
   width: min(440px, 92vw);
-  background: var(--c-surface);
+  background: var(--c-bg);
   border: 1px solid var(--c-border);
   border-radius: 4px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   font-family: var(--font-mono);
 }
@@ -388,6 +390,14 @@ a {
   padding: 6px;
 }
 
+.scheme-group-label {
+  margin: 0;
+  padding: 8px 10px 4px;
+  color: var(--c-muted);
+  font-size: 11px;
+  text-transform: lowercase;
+}
+
 .scheme-item {
   display: flex;
   align-items: center;
@@ -399,14 +409,19 @@ a {
   font-size: 13px;
 }
 
-.scheme-item::before {
-  content: '';
+.scheme-swatch {
   width: 12px;
   height: 12px;
   border-radius: 3px;
-  background: var(--c-bg);
-  border: 1px solid var(--c-border);
+  background: var(--swatch-bg);
+  border: 1px solid var(--swatch-border);
+  box-shadow: inset 5px 0 0 var(--swatch-accent);
   flex-shrink: 0;
+}
+
+.scheme-check {
+  margin-left: auto;
+  color: var(--c-accent);
 }
 
 .scheme-item.active {
