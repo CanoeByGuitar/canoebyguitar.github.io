@@ -72,7 +72,7 @@ plane_normal = np.array([0.0, 1.0, 0.0])  # Unity: +Y is up
 projected_end = vector_end - np.dot(vector_end, plane_normal) * plane_normal
 ```
 
-This is a still, not a video: `scenes/vec3_project.py` only calls `self.add(...)`, so Manim fast-forwards to the last frame and writes a single PNG (3840×2160, auto-trimmed to 1823×908).
+This is a still, not a video: `scenes/vec3_project.py` only calls `self.add(...)`, so Manim fast-forwards to the last frame and writes a single PNG. It is rendered at 3840×2160 and auto-trimmed to 2386×1838, so the figure does not end up as a tiny stamp on a huge canvas.
 
 ### Output specs
 
