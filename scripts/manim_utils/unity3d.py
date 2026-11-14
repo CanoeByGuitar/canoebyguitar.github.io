@@ -108,15 +108,15 @@ class UnityCamera(ThreeDCamera):
     """
 
     def __init__(self, *args, yaw: float = 0.0, pitch: float = 0.0, **kwargs):
-        self.unity_yaw = float(yaw)
-        self.unity_pitch = float(pitch)
+        self.unity_yaw = yaw
+        self.unity_pitch = pitch
         self._look_at_rows: np.ndarray | None = None
         super().__init__(*args, **kwargs)
 
     def set_unity_angles(self, yaw: float, pitch: float) -> None:
         self._look_at_rows = None
-        self.unity_yaw = float(yaw)
-        self.unity_pitch = float(pitch)
+        self.unity_yaw = yaw
+        self.unity_pitch = pitch
         self.reset_rotation_matrix()
 
     def set_unity_look_at(
@@ -345,11 +345,11 @@ class UnityScene(ThreeDScene):
                 np.zeros(3) if look_at is None else np.asarray(look_at, float)
             )
             position = np.asarray(pos, float)
-            camera.set_unity_look_at(position, target, up)
+            camera.set_unity_look_at(position.tolist(), target.tolist(), up)
             if frame_center is None:
                 frame_center = to_manim(target)
             if focal_distance is None:
-                focal_distance = float(np.linalg.norm(target - position))
+                focal_distance = np.linalg.norm(target - position).item()
         else:
             if look_at is not None:
                 raise ValueError("look_at requires pos")
