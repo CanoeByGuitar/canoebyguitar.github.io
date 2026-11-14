@@ -1,0 +1,15 @@
+{
+  "lsp": {
+    "basedpyright": {
+      "settings": {
+        "basedpyright": {
+          "analysis": {
+            "extraPaths": [
+              "scripts"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

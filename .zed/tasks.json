@@ -23,17 +23,13 @@
   },
   {
     "label": "Manim: Preview current scene",
-    "command": "powershell.exe",
+    "command": "node",
     "args": [
-      "-NoProfile",
-      "-ExecutionPolicy",
-      "Bypass",
-      "-File",
-      "$ZED_WORKTREE_ROOT/scripts/render-manim.ps1",
-      "-SceneFile",
-      "$ZED_FILE",
-      "-Mode",
-      "preview"
+      "$ZED_WORKTREE_ROOT/scripts/render-manim.mjs",
+      "--mode",
+      "preview",
+      "--scene-file",
+      "$ZED_FILE"
     ],
     "cwd": "$ZED_WORKTREE_ROOT",
     "save": "current",
@@ -41,18 +37,29 @@
     "hide": "never"
   },
   {
-    "label": "Manim: Render current scene",
-    "command": "powershell.exe",
+    "label": "Manim: Render current still",
+    "command": "node",
     "args": [
-      "-NoProfile",
-      "-ExecutionPolicy",
-      "Bypass",
-      "-File",
-      "$ZED_WORKTREE_ROOT/scripts/render-manim.ps1",
-      "-SceneFile",
-      "$ZED_FILE",
-      "-Mode",
-      "render"
+      "$ZED_WORKTREE_ROOT/scripts/render-manim.mjs",
+      "--mode",
+      "still",
+      "--scene-file",
+      "$ZED_FILE"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "current",
+    "reveal": "always",
+    "hide": "on_success"
+  },
+  {
+    "label": "Manim: Render current scene",
+    "command": "node",
+    "args": [
+      "$ZED_WORKTREE_ROOT/scripts/render-manim.mjs",
+      "--mode",
+      "render",
+      "--scene-file",
+      "$ZED_FILE"
     ],
     "cwd": "$ZED_WORKTREE_ROOT",
     "save": "current",
