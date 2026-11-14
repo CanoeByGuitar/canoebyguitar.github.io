@@ -95,3 +95,25 @@ node scripts/render-manim.mjs --mode still --scene-file scenes/vec3_project.py
 产物是裁过白边的 PNG，放在文章自己的 `assets/` 里，用相对路径引用：
 
 ![黑向量 (1,1,1) 投影到 y=0 平面得到红色 (1,0,1)。](./assets/vec3-projection.png)
+
+## Draw.io
+
+Draw.io 可以把完整图表数据嵌入 SVG。产物既是浏览器可以直接显示的矢量图，也能重新用 Draw.io 打开继续编辑，不需要额外维护源文件和导出图片。
+
+在 Draw.io 中选择 **File → Save As → Editable Vector Image (.svg)**，或导出 SVG 时勾选 **Include a copy of my diagram**，然后把文件保存到文章自己的 `assets/` 目录。文件名推荐保留 `.drawio.svg` 后缀：
+
+```text
+src/content/docs/posts/<slug>/assets/<name>.drawio.svg
+```
+
+Markdown 仍然使用标准图片语法，不需要定制插件：
+
+```markdown
+![Draw.io 博客工作流](./assets/drawio-workflow.drawio.svg)
+```
+
+![Draw.io 博客工作流：编辑后保存可编辑 SVG 到 assets，再由 Markdown 引用并在 Astro 和浏览器中直接显示。](./assets/drawio-workflow.drawio.svg)
+
+当前示例源文件与网页图片是同一个文件：`assets/drawio-workflow.drawio.svg`。重新用 Draw.io 打开并保存它，文章中的图会随之更新。
+
+Draw.io 会把较长的编辑数据放进 SVG 根标签，而 Astro 只扫描文件开头来读取图片尺寸。项目会在 `dev`、`check` 和 `build` 前自动执行 `npm run drawio:prepare`，补充 Astro 所需的尺寸提示；因此保存后可以直接运行正常命令，不需要手工修改 SVG。

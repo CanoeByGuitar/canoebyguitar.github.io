@@ -5,9 +5,13 @@
   "private": true,
   "description": "Chenhui Wang 的物理、动画与图形引擎技术博客，基于 Astro + Starlight。",
   "scripts": {
+    "drawio:prepare": "node scripts/prepare-drawio.mjs",
+    "predev": "npm run drawio:prepare",
     "dev": "astro dev",
+    "prebuild": "npm run drawio:prepare",
     "build": "astro build",
     "preview": "astro preview",
+    "precheck": "npm run drawio:prepare",
     "check": "astro check"
   },
   "dependencies": {
