@@ -117,3 +117,35 @@ Markdown 仍然使用标准图片语法，不需要定制插件：
 当前示例源文件与网页图片是同一个文件：`assets/drawio-workflow.drawio.svg`。重新用 Draw.io 打开并保存它，文章中的图会随之更新。
 
 Draw.io 会把较长的编辑数据放进 SVG 根标签，而 Astro 只扫描文件开头来读取图片尺寸。项目会在 `dev`、`check` 和 `build` 前自动执行 `npm run drawio:prepare`，补充 Astro 所需的尺寸提示；因此保存后可以直接运行正常命令，不需要手工修改 SVG。
+
+### 类图
+
+#### Logger
+下面的 UML 类图依据 `Kefa/engine/foundation` 的 C++ logger 头文件与实现绘制，展示核心类型、成员和主要关系；模板方法与部分签名作了简写，自由函数和标准库类型未展开。
+
+![Kefa Foundation logger 的 UML 类图：LogRegistry 持有 Logger，Logger 持有 ILogSink；LogSink 实现 ILogSink，ConsoleSink 和 FileSink 继承 LogSink，并各自组合一个 LogPatternFormatter。](./assets/kefa-logger.drawio.svg)
+
+- **接口实现与继承**：虚线空心三角表示 `LogSink` 实现 `ILogSink`；实线空心三角表示两个具体 sink 继承抽象类 `LogSink`。
+- **关联与组合**：`LogRegistry` → `Logger`、`Logger` → `ILogSink` 是 `shared_ptr` 持有的关联，不表示独占生命周期；sink → `LogPatternFormatter` 是按值成员形成的组合，实心菱形位于 sink 一端。
+- **依赖**：`Logger` 创建 `LogRecord`，formatter 读取它；`LogRecord::Level` 使用 `ELogLevel`。图中只展开主要依赖，不穷举每个参数类型。
+- **可见性**：`+` / `-` / `#` 分别表示 public / private / protected；斜体表示抽象类或纯虚方法，`{leaf}` 对应 C++ `final`。
+
+图源与展示图片均为 `assets/kefa-logger.drawio.svg`，可用 Draw.io 重新打开编。`LogRecord` 的字符串字段是 `string_view`，并不拥有文本；当前实现同步分发记录，不能据此推断为异步日志系统。
+
+#### UE
+
+下面依据本地 Unreal Engine 源码，选取 **9 个基础类型**，只展示动画资产与运行时入口的主要关系，不展开整个动画系统。核心声明位于 `Engine/Source/Runtime/Engine/Classes/Animation/`；Proxy 位于 `Public/Animation/`，Mesh 和 Component 分别位于 `Classes/Engine/` 与 `Classes/Components/`。
+
+![UE 动画系统简化类图：SkeletalMesh 和 AnimationAsset 引用 Skeleton；AnimSequence 继承 AnimSequenceBase 和 AnimationAsset；SkeletalMeshComponent 引用 Mesh 与 AnimInstance，AnimInstance 拥有 Proxy，Proxy 引用运行时根节点。](./assets/ue-animation.drawio.svg)
+
+### 泳道式调用执行流
+
+这类图可以称为 **泳道式调用执行流图**：每条泳道代表一个类或对象，时间从上往下走。它借用了时序图的参与者布局，但用纵向实线箭头展示执行步骤，因此不是严格的 UML 时序图，也不是只展示函数依赖的静态调用图。
+
+![泳道式调用执行流示意：ClassA 的入口调用 ClassB，ClassB 再调用 ClassC；执行沿实线箭头向下，跨泳道调用及返回沿虚线箭头，最后依次返回 ClassB 和 ClassA。](./assets/call-flow.drawio.svg)
+
+- **纵向实线箭头**：当前泳道继续执行，时间始终向下。
+- **跨泳道虚线箭头**：`call` 进入被调函数，`return` 回到调用者的续执行点；返回不是向上倒退。
+- **嵌套调用**：A → B → C 后，必须先 C → B，再 B → A。调用者等待时不画继续执行的箭头，避免暗示并行执行。
+
+这是使用 `ClassA` / `ClassB` / `ClassC` 的抽象示意，不对应具体代码，只表达一条同步执行路径。图源为 `assets/call-flow.drawio.svg`，可用 Draw.io 二次编辑；通用生成模型与规则位于 `.pi/skills/graph-generator/`。

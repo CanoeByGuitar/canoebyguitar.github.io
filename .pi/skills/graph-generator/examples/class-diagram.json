@@ -1,0 +1,26 @@
+{
+  "title": "Document export — UML class diagram",
+  "description": "A language-neutral example of inheritance, interface realization, composition, association, aggregation and dependency.",
+  "classes": [
+    {"id":"exporter","name":"IExporter","kind":"interface","x":480,"y":120,"width":390,"operations":[{"text":"+ export(doc: Document): bytes","abstract":true}]},
+    {"id":"base","name":"BaseExporter","kind":"abstract","x":480,"y":430,"width":390,"attributes":["- options: ExportOptions"],"operations":[{"text":"+ export(doc: Document): bytes","abstract":true},"# validate(doc: Document): void"]},
+    {"id":"pdf","name":"PdfExporter","final":true,"x":480,"y":800,"width":390,"operations":["+ export(doc: Document): bytes"]},
+    {"id":"document","name":"Document","x":40,"y":800,"width":350,"attributes":["- title: string"],"operations":["+ add(page: Page): void"]},
+    {"id":"page","name":"Page","x":40,"y":1200,"width":350,"attributes":["+ content: string"]},
+    {"id":"service","name":"ExportService","x":1020,"y":120,"width":390,"attributes":["- exporter: IExporter"],"operations":["+ run(doc: Document): bytes"]},
+    {"id":"catalog","name":"Catalog","x":1020,"y":800,"width":390,"attributes":["- documents: collection<Document>"]}
+  ],
+  "relations": [
+    {"source":"base","target":"exporter","kind":"realization","source_anchor":"top","target_anchor":"bottom"},
+    {"source":"pdf","target":"base","kind":"generalization","source_anchor":"top","target_anchor":"bottom"},
+    {"source":"document","target":"page","kind":"composition","source_anchor":"bottom","target_anchor":"top","labels":[{"text":"pages 0..*","x":230,"y":1130}]},
+    {"source":"service","target":"exporter","kind":"association","source_anchor":"left","target_anchor":"right","labels":[{"text":"exporter 1","x":895,"y":205}]},
+    {"source":"pdf","target":"document","kind":"dependency","source_anchor":"left","target_anchor":"right","labels":[{"text":"«use»","x":400,"y":875}]},
+    {"source":"catalog","target":"document","kind":"aggregation","source_anchor":"bottom","target_anchor":"right","waypoints":[[1215,1150],[420,1150],[420,920]],"labels":[{"text":"shared documents 0..*","x":650,"y":1130}]}
+  ],
+  "notes": [
+    "+ public / - private / # protected; italic = abstract; underline = static; {leaf} = final.",
+    "Triangle points to base/interface. Diamond is at whole/owner. Dashed arrow is dependency.",
+    "Illustrative model, not extracted from a real codebase. Catalog aggregation assumes explicit shared-whole semantics."
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "title": "Unreal Engine — Animation essentials",
+  "description": "Nine core Unreal Engine animation types: shared skeleton and mesh assets, the sequence inheritance chain, and component, instance, proxy and runtime node relationships.",
+  "classes": [
+    {
+      "id": "mesh", "name": "USkeletalMesh", "stereotype": "«asset»",
+      "x": 40, "y": 110, "width": 380,
+      "operations": ["+ GetSkeleton(): USkeleton*", "+ GetRefSkeleton(): RefSkeleton&"]
+    },
+    {
+      "id": "skeleton", "name": "USkeleton", "stereotype": "«asset»",
+      "x": 520, "y": 110, "width": 380,
+      "attributes": ["# ReferenceSkeleton: RefSkeleton"],
+      "operations": ["+ GetReferenceSkeleton():", "  const RefSkeleton&"]
+    },
+    {
+      "id": "asset", "name": "UAnimationAsset", "kind": "abstract",
+      "x": 1000, "y": 110, "width": 380,
+      "attributes": ["- Skeleton: TObjectPtr<USkeleton>"],
+      "operations": ["+ GetSkeleton(): USkeleton*"]
+    },
+    {
+      "id": "component", "name": "USkeletalMeshComponent",
+      "x": 40, "y": 410, "width": 380,
+      "attributes": ["+ AnimScriptInstance:", "  TObjectPtr<UAnimInstance>"],
+      "operations": ["+ GetSkeletalMeshAsset():", "  USkeletalMesh*"]
+    },
+    {
+      "id": "instance", "name": "UAnimInstance",
+      "x": 520, "y": 410, "width": 380,
+      "attributes": ["# AnimInstanceProxy:", "  FAnimInstanceProxy*"],
+      "operations": ["+ NativeUpdateAnimation(dt): void"]
+    },
+    {
+      "id": "sequenceBase", "name": "UAnimSequenceBase", "kind": "abstract",
+      "x": 1000, "y": 410, "width": 380,
+      "attributes": ["+ RateScale: float"],
+      "operations": ["+ GetPlayLength(): float"]
+    },
+    {
+      "id": "node", "name": "FAnimNode_Base", "kind": "struct",
+      "x": 40, "y": 710, "width": 380,
+      "operations": ["+ Update_AnyThread(ctx): void", "+ Evaluate_AnyThread(pose): void"]
+    },
+    {
+      "id": "proxy", "name": "FAnimInstanceProxy", "kind": "struct",
+      "x": 520, "y": 710, "width": 380,
+      "attributes": ["- RootNode: FAnimNode_Base*"],
+      "operations": ["# UpdateAnimation(): void", "# EvaluateAnimation(pose): void"]
+    },
+    {
+      "id": "sequence", "name": "UAnimSequence", "stereotype": "«asset»",
+      "x": 1000, "y": 710, "width": 380,
+      "attributes": ["+ bEnableRootMotion: bool"],
+      "operations": ["+ GetAnimationPose(data, ctx):", "  void"]
+    }
+  ],
+  "relations": [
+    {"source": "mesh", "target": "skeleton", "kind": "association", "source_anchor": "right", "target_anchor": "left", "labels": [{"text": "Skeleton", "x": 426, "y": 205}]},
+    {"source": "asset", "target": "skeleton", "kind": "association", "source_anchor": "left", "target_anchor": [1, 0.44], "labels": [{"text": "Skeleton", "x": 906, "y": 190}]},
+    {"source": "component", "target": "mesh", "kind": "association", "source_anchor": "top", "target_anchor": "bottom", "labels": [{"text": "mesh asset", "x": 248, "y": 378}]},
+    {"source": "component", "target": "instance", "kind": "association", "source_anchor": "right", "target_anchor": [0, 0.56], "labels": [{"text": "instance", "x": 426, "y": 505}]},
+    {"source": "instance", "target": "proxy", "kind": "composition", "source_anchor": "bottom", "target_anchor": "top", "labels": [{"text": "creates / destroys", "x": 728, "y": 678}]},
+    {"source": "proxy", "target": "node", "kind": "association", "source_anchor": "left", "target_anchor": "right", "labels": [{"text": "RootNode", "x": 426, "y": 805}]},
+    {"source": "sequenceBase", "target": "asset", "kind": "generalization", "source_anchor": "top", "target_anchor": "bottom"},
+    {"source": "sequence", "target": "sequenceBase", "kind": "generalization", "source_anchor": "top", "target_anchor": "bottom"}
+  ],
+  "notes": [
+    "Left / center: mesh and runtime. Right: animation asset inheritance.",
+    "Solid triangle outline = inheritance; filled diamond = owned proxy; plain line = reference.",
+    "RefSkeleton = FReferenceSkeleton; dt = float DeltaSeconds; ctx / pose / data abbreviate parameters.",
+    "Selected members only; const qualifiers and common UObject / component / asset bases omitted.",
+    "Concrete player nodes, graph links, state machines, montages and editor types are not expanded."
+  ]
+}

@@ -1,5 +1,21 @@
 [
   {
+    "label": "Draw.io: Open current SVG",
+    "command": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "args": [
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "$ZED_WORKTREE_ROOT/scripts/open-svg-in-drawio.ps1",
+      "$ZED_FILE"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "current",
+    "reveal": "always",
+    "hide": "on_success"
+  },
+  {
     "label": "Manim: Preview current scene",
     "command": "node",
     "args": [

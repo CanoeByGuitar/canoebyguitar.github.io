@@ -1,0 +1,2 @@
+# Only the validator/tests require this; the generator uses the standard library.
+defusedxml>=0.7.1,<0.8
