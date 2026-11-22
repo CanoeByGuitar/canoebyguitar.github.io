@@ -1,0 +1,26 @@
+{
+  "title": "Call execution flow — schematic",
+  "lanes": [
+    {"id": "a", "name": "ClassA"},
+    {"id": "b", "name": "ClassB"},
+    {"id": "c", "name": "ClassC"}
+  ],
+  "entry": "a",
+  "events": [
+    {"kind": "step", "text": "entry()"},
+    {"kind": "step", "text": "Prepare input"},
+    {"kind": "call", "target": "b", "text": "work(input)"},
+    {"kind": "step", "text": "Validate input"},
+    {"kind": "call", "target": "c", "text": "compute(input)"},
+    {"kind": "step", "text": "Compute result"},
+    {"kind": "return", "text": "return value", "resume": "work(): receive value"},
+    {"kind": "step", "text": "Transform value"},
+    {"kind": "return", "text": "return result", "resume": "entry(): receive result"},
+    {"kind": "step", "text": "Finish entry()"}
+  ],
+  "notes": [
+    "Generic synchronous trace; illustrative only, not extracted from source code.",
+    "A caller waits during a call. Returns unwind C -> B -> A; they do not move time upward.",
+    "This is a swimlane execution flow, not a strict UML sequence diagram or a static call graph."
+  ]
+}

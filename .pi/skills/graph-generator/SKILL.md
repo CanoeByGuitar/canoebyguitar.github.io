@@ -32,7 +32,8 @@ compatibility: 生成器需要 Python 3.10+；验证器需要 defusedxml；图�
 ## 默认交付
 
 - `<name>.drawio.svg`：展示与二次编辑。
-- `<name>.json`：AI 建模与可复现生成的输入；用户不需要它来打开 Draw.io。
+- `<name>.json`：AI 建模与可复现生成的输入；用户不需要它来打开 Draw.io。**用于文章的图，JSON 必须与 SVG 一起保存在该文章的 `assets/`，同名配对为 `assets/<name>.json` 和 `assets/<name>.drawio.svg`。** 从文章自己的 JSON 生成 SVG，不直接依赖技能 `examples/` 中的模型；技能示例只能作为模板，先复制到文章再编辑。其他项目也将 JSON 与对应 SVG 同目录保存。
+- 文章说明应指出本地 JSON 图源位置与重新生成方式。修改 JSON 后需重新运行生成器；当前没有自动同步，也不会把 Draw.io 修改反写 JSON。
 - 简短说明：范围、缩写、关键关系及实际验证证据。
 - 可选 `.drawio`：便于专用编辑器直接打开，内容与 SVG 内嵌模型一致。
 

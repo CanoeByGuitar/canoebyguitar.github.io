@@ -148,4 +148,12 @@ Draw.io 会把较长的编辑数据放进 SVG 根标签，而 Astro 只扫描文
 - **跨泳道虚线箭头**：`call` 进入被调函数，`return` 回到调用者的续执行点；返回不是向上倒退。
 - **嵌套调用**：A → B → C 后，必须先 C → B，再 B → A。调用者等待时不画继续执行的箭头，避免暗示并行执行。
 
-这是使用 `ClassA` / `ClassB` / `ClassC` 的抽象示意，不对应具体代码，只表达一条同步执行路径。图源为 `assets/call-flow.drawio.svg`，可用 Draw.io 二次编辑；通用生成模型与规则位于 `.pi/skills/graph-generator/`。
+这是使用 `ClassA` / `ClassB` / `ClassC` 的抽象示意，不对应具体代码，只表达一条同步执行路径。JSON 图源为 `assets/call-flow.json`，对应图片为 `assets/call-flow.drawio.svg`，可用 Draw.io 二次编辑；通用生成器与规则位于 `.pi/skills/graph-generator/`。
+
+编辑 JSON 后，从项目根目录重新生成（会覆盖 SVG；先确认没有需要保留的 Draw.io 手工修改）：
+
+```bash
+.venv/Scripts/python.exe .pi/skills/graph-generator/scripts/generate_call_flow.py src/content/docs/posts/blog-writing-sample/assets/call-flow.json --output src/content/docs/posts/blog-writing-sample/assets/call-flow.drawio.svg --force
+```
+
+JSON 与 SVG 目前不是自动同步；Draw.io 的修改也不会反写 JSON。
